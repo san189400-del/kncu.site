@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kayan Lahta</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+  
+    <style> 
+        .detail-page {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+          
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 10px 20px;
+            border: 1px solid lightblue;
+            color: lightblue;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .back-link:hover {
+            background-color: lightblue;
+            color: #0d0d0d;
+        }
+        /* --- CSS Variables for Easy Theme Management --- */
+  
+
+        /* --- General Body & Reset --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+           
+            /* Add padding to the top to prevent content from hiding behind the fixed navbar */
+            padding-top: var(--nav-height);
+            background-color: #0d0d0d; /* Near black */
+            color: #e0e0e0;
+            font-family:'Courier New', Courier, monospace;
+            font-weight: 20px;
+            background-image: 
+                linear-gradient(rgba(0, 255, 135, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 135, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+
+        /* --- Navbar Container & Layout --- */
+        .custom-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--nav-height);
+            z-index: 1000;
+            background-color: var(--bg-dark-transparent);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            perspective: 1000px; /* For 3D effects on children */
+        }
+        
+        .custom-navbar.scrolled {
+            height: 70px;
+            background-color: var(--bg-dark-solid);
+            box-shadow: 0 5px 20px var(--shadow-color);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* --- Brand / Logo --- */
+        .nav-brand {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-white);
+            text-decoration: none;
+            letter-spacing: 1px;
+            transition: transform 0.3s ease;
+        }
+        .nav-brand:hover {
+            transform: scale(1.05);
+        }
+        .nav-brand .highlight {
+            color: var(--accent-yellow);
+        }
+
+        /* --- Navigation Menu (Desktop) --- */
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            list-style: none;
+        }
+        
+        .nav-item {
+            position: relative;
+            margin-left: 10px;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 10px 15px;
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 400;
+            position: relative;
+            transition: all 0.4s ease;
+            transform-style: preserve-3d; /* Enable 3D transform */
+        }
+
+        .nav-link:hover {
+            color: var(--text-white);
+            transform: translateY(-4px) rotateX(10deg);
+        }
+
+        /* Underline Animation */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 15px;
+            right: 15px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-yellow));
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .nav-link:hover::after, .nav-link.active::after {
+            transform: scaleX(1);
+        }
+        
+        /* --- Dropdown Menu Styling --- */
+        .dropdown-menu {
+            position: absolute;
+            top: 120%; /* Start slightly lower for animation */
+            left: 50%;
+            transform: translateX(-50%) rotateX(-15deg);
+            transform-origin: top center;
+            width: 200px;
+            background: var(--bg-dark-solid);
+            list-style: none;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            padding: 10px 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, top 0.3s ease, transform 0.3s ease, visibility 0.3s;
+        }
+        
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            top: 100%;
+            transform: translateX(-50%) rotateX(0deg);
+        }
+        
+        .dropdown-item a {
+            display: block;
+            padding: 12px 20px;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: background 0.3s ease, color 0.3s ease, padding-left 0.3s ease;
+        }
+        
+        .dropdown-item a:hover {
+            background: var(--accent-yellow);
+            color: var(--bg-dark-solid);
+            padding-left: 25px; /* Nice slide-in effect */
+        }
+
+        /* --- Mobile Navigation & Hamburger Menu --- */
+        /* The invisible checkbox that powers the mobile menu */
+        .nav-toggle-checkbox {
+            display: none;
+        }
+
+        /* The hamburger icon itself */
+        .nav-toggle-label {
+            display: none; /* Hidden on desktop */
+            width: 30px;
+            height: 22px;
+            position: relative;
+            cursor: pointer;
+            z-index: 1001; /* Above menu */
+        }
+
+        .nav-toggle-label span {
+            display: block;
+            position: absolute;
+            height: 3px;
+            width: 100%;
+            background: var(--accent-yellow);
+            border-radius: 3px;
+            left: 0;
+            transition: all 0.35s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        .nav-toggle-label span:nth-child(1) { top: 0; }
+        .nav-toggle-label span:nth-child(2) { top: 10px; }
+        .nav-toggle-label span:nth-child(3) { top: 20px; }
+        
+        /* Hamburger to "X" animation when checkbox is checked */
+        .nav-toggle-checkbox:checked + .nav-toggle-label span:nth-child(1) {
+            transform: rotate(45deg);
+            top: 10px;
+            background: var(--accent-blue);
+        }
+        .nav-toggle-checkbox:checked + .nav-toggle-label span:nth-child(2) {
+            width: 0%;
+            opacity: 0;
+        }
+        .nav-toggle-checkbox:checked + .nav-toggle-label span:nth-child(3) {
+            transform: rotate(-45deg);
+            top: 10px;
+            background: var(--accent-blue);
+        }
+
+        /* --- Responsive Media Query --- */
+        @media (max-width: 992px) {
+            .nav-toggle-label {
+                display: block; /* Show hamburger on mobile */
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh; /* Full screen */
+                background: var(--bg-dark-solid);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transform: translateX(-100%); /* Start off-screen */
+                transition: transform 0.5s cubic-bezier(0.77, 0, 0.18, 1);
+            }
+
+            /* Slide in the menu when checkbox is checked */
+            .nav-toggle-checkbox:checked ~ .nav-menu {
+                transform: translateX(0);
+            }
+            
+            .nav-item {
+                margin: 20px 0;
+            }
+
+            .nav-link {
+                font-size: 1.5rem;
+            }
+
+            /* Mobile Dropdowns */
+            .dropdown-menu {
+                position: static; /* No longer absolute */
+                display: none; /* Hidden by default */
+                background: transparent;
+                box-shadow: none;
+                width: auto;
+                text-align: center;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                padding-top: 10px;
+            }
+            
+            .dropdown:hover .dropdown-menu {
+                display: block; /* Show on hover */
+            }
+
+            .dropdown-item a {
+                color: var(--accent-blue);
+                font-size: 1.1rem;
+                font-weight: 300;
+            }
+            .dropdown-item a:hover {
+                background: none;
+                color: var(--accent-yellow);
+                padding-left: 20px;
+            }
+        }
+        
+        /* Example Content to demonstrate scroll */
+        .content h1 {
+            margin-top: 5rem;
+            text-align: center;
+            color: #1c3d3d;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+
+    <style>
+    .highlighted-desc {
+    padding: 2rem 1rem;
+    margin-bottom: 3rem !important;
+    margin-top: 3rem;
+    border: 2px solid rgba(148,163,184,.15);
+    box-shadow: 0 10px 30px rgba(2,6,23,.5);
+    background: rgba(10, 25, 40, 0.3);
+    border-radius: 18px;
+    backdrop-filter: blur(2px);
+    transition: background 0.3s, border-color 0.3s;
+    color: #e0e0e0; 
+    margin-left: 5%;
+    margin-right: 5%;
+}
+.highlighted-desc::before {
+    content: "✦";
+    position: absolute;
+    left: 18px;
+    top: 18px;
+    font-size: 1.2rem;
+    color: #FFD700;
+    opacity: 0.8;
+}
+
+@keyframes fadeInSmart {
+    from { opacity: 0; transform: translateY(30px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+        p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 1.2rem;
+            word-break: break-word;
+            max-width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            p {
+                font-size: 1rem;
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+                text-align: left;
+            }
+            .container,
+            .container-fluid,
+            .detail-page,
+            [class^="col-"] {
+                padding-left: 0.5rem !important;
+                padding-right: 0.5rem !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                width: 100% !important;
+                max-width: 100vw !important;
+                box-sizing: border-box;
+            }
+            div[style*="width: 70rem"] {
+                width: 100% !important;
+                margin-left: 0 !important;
+            }
+        }
+
+        @font-face {
+            font-family: 'Myanmar Unicode';
+            src: local('Myanmar Text'), local('Pyidaungsu'), local('Padauk');
+        }
+
+        .container-fluid {
+            padding-top: 50px;
+            padding-bottom: 50px;
+        }
+
+        .image-container {
+            padding: 2rem 1rem;
+            margin-bottom: 3rem !important;
+            border: 2px solid rgba(148,163,184,.15);
+            box-shadow: 0 10px 30px rgba(2,6,23,.5);
+            background: rgba(10, 25, 40, 0.3);
+            border-radius: 18px;
+            backdrop-filter: blur(2px);
+            transition: background 0.3s, border-color 0.3s;
+            color: #e0e0e0; 
+            margin-left: 5%;
+            margin-right: 5%;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .image-container:hover img {
+            transform: scale(1.1) rotateY(15deg);
+        }
+
+        .image-container:hover {
+            border-color: goldenrod;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+        }
+
+        .image-text {
+            padding: 15px;
+            text-align: center;
+            background-color: rgba(7, 46, 7, 0.1);
+            border-top: 1.5px solid #00ff00;
+            border-radius: 0 0 12px 12px;
+            min-height: 150px; /* To ensure consistent height */
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 50px;
+            color: goldenrod;
+            font-size: 3rem;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: inherit;
+            text-decoration: none;
+        }
+        .typewriter {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 3rem;
+  animation: typing 2.5s steps(13, end) forwards, blink-caret .75s step-end infinite;
+  width: 0;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 50ch; } /* "MEET OUR TEAM" is 13 characters */
+}
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: #FFD700; }
+}
+    </style>
+
+    <!--menubar style-->
+    <style>
+        /* --- CSS Variables for a Smart & Dynamic Theme --- */
+        :root {
+            --bg-color-start: #1B2735; /* Deep space blue */
+            --bg-color-end: #090A0F;   /* Near black */
+            --navbar-bg: rgba(10, 10, 10, 0.6); /* Darker, semi-transparent */
+            --accent-yellow: #FFD700; 
+            --accent-blue: #00BFFF;
+            --accent-red: #E53935;
+            --text-light: rgba(240, 240, 240, 0.9);
+            --text-white: #ffffff;
+            --nav-height: 75px;
+        }
+
+        /* --- Aurora Glow Effect --- */
+        body::before, body::after {
+            content: '';
+            position: fixed;
+            z-index: -1;
+            filter: blur(100px);
+            opacity: 0.3;
+        }
+        
+        /* Blue Glow */
+        body::before {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--accent-blue), transparent 60%);
+            top: -100px;
+            left: -150px;
+        }
+
+        /* Red Glow */
+        body::after {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--accent-red), transparent 70%);
+            bottom: -50px;
+            right: -100px;
+        }
+
+
+        /* --- Custom Navbar with 3D Perspective --- */
+        .custom-navbar {
+            background-color: var(--navbar-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            min-height: var(--nav-height);
+            transition: background-color 0.3s ease-in-out;
+            perspective: 1500px; /* Crucial for 3D transforms on child elements */
+        }
+
+        /* --- Brand / Logo Styling --- */
+        .navbar-brand {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+        }
+        .navbar-brand .highlight-yellow {
+            color: var(--accent-yellow);
+        }
+
+        /* --- 3D Navigation Links Styling --- */
+        .navbar-nav .nav-link {
+            color: var(--text-light);
+            font-weight: 600;
+            position: relative;
+            padding: 0.5rem 1rem;
+            margin: 0 0.25rem;
+            transform-style: preserve-3d; /* Enable 3D space for the element */
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), color 0.3s;
+        }
+
+        /* The 3D hover effect! */
+        .navbar-nav .nav-link:hover {
+            color: var(--accent-blue);
+            transform: translateZ(30px) rotateX(-20deg);
+        }
+        
+        .navbar-nav .nav-link.active {
+            color: var(--accent-yellow);
+        }
+        
+        /* Animated Underline (moves with 3D transform) */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px; /* Position below the link */
+            left: 1rem;
+            right: 1rem;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-yellow));
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            transform: scaleX(1);
+        }
+        
+        /* --- 3D Dropdown Menu Styling --- */
+        .dropdown-menu {
+            background-color: rgba(20, 20, 20, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 0.5rem;
+            padding: 0.5rem 0;
+            margin-top: 1rem !important; /* Force space from navbar */
+            opacity: 0;
+            visibility: hidden;
+            transform: rotateX(-15deg);
+            transform-origin: top;
+            transition: all 0.3s ease-out;
+        }
+        
+        /* Show dropdown on hover */
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: rotateX(0deg);
+        }
+        
+        .dropdown-item {
+            color: var(--text-light);
+            padding: 0.75rem 1.5rem;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .dropdown-item:hover, .dropdown-item:focus {
+            background-image: linear-gradient(90deg, var(--accent-blue), var(--accent-yellow));
+            color: var(--bg-color-end);
+            transform: translateX(5px);
+        }
+        
+        /* --- Mobile Menu Toggler & Responsiveness --- */
+        .navbar-toggler {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 215, 0, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        @media (max-width: 991.98px) {
+            /* On mobile, disable 3D effects for a cleaner feel */
+            .navbar-nav .nav-link:hover {
+                transform: none;
+            }
+            .nav-link::after { display: none; } /* Hide underline on mobile */
+
+            /* Center items in the fullscreen mobile menu */
+            .navbar-collapse {
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            .navbar-nav .nav-item {
+                margin: 1rem 0;
+            }
+            .nav-link { font-size: 1.5rem; }
+            .dropdown-menu {
+                background: transparent;
+                border: none;
+                backdrop-filter: none;
+                text-align: center;
+                opacity: 1; /* Make visible for static display */
+                visibility: visible;
+                transform: none;
+                position: static;
+            }
+            .dropdown-item { font-size: 1.2rem; }
+            .dropdown-item:hover, .dropdown-item:focus {
+                background: none;
+                background-clip: border-box;
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                background-image: linear-gradient(90deg, var(--accent-yellow), var(--accent-blue));
+                transform: none;
+            }
+        }
+
+
+        /* --- Footer Styling --- */
+        .footer {
+            background-color: #000;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem 0;
+            color: var(--text-light);
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+    <!--media in android-->
+    <style>
+        @media (max-width: 480px) {
+    body {
+        font-size: 1rem;
+        padding: 0 !important;
+        background-size: 12px 12px;
+    }
+    h1 {
+        font-size: 1.5rem !important;
+        margin-bottom: 1.2rem !important;
+        padding: 0 0.5rem;
+        text-align: center;
+        word-break: break-word;
+    }
+    .container-fluid, .container, .detail-page, [class^="col-"] {
+        padding: 0.5rem !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: 100vw !important;
+        box-sizing: border-box;
+    }
+    .row {
+        flex-direction: column !important;
+        gap: 1.5rem;
+    }
+    .image-container {
+        margin-bottom: 1.2rem;
+        border-width: 2px;
+        border-radius: 10px;
+        min-width: 0;
+        box-shadow: 0 2px 8px rgba(0,191,255,0.12);
+    }
+    .image-container img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+    }
+    .image-text {
+        padding: 10px 5px;
+        min-height: unset;
+        font-size: 1rem;
+    }
+    .highlighted-desc {
+        font-size: 1rem;
+        padding: 1rem 0.7rem;
+        margin: 1.2rem 0.2rem 1.5rem 0.2rem;
+        border-radius: 8px;
+        max-width: 100vw;
+        word-break: break-word;
+    }
+    .highlighted-desc::before {
+        left: 10px;
+        top: 10px;
+        font-size: 1rem;
+    }
+    .video-frame.mb-4 {
+        padding: 0.5rem !important;
+        min-height: 180px !important;
+    }
+    .video-frame iframe {
+        width: 100% !important;
+        height: 180px !important;
+        border-radius: 8px;
+    }
+    .back-link {
+        width: 100%;
+        text-align: center;
+        padding: 12px 0;
+        font-size: 1.1rem;
+        margin-top: 1.5rem;
+        border-radius: 8px;
+    }
+}
+.footer-text {
+            color: lightblue;
+            letter-spacing: 2px;
+            opacity: 0.8;
+            border-top:2px solid rgb(40, 54, 40) ;
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(10, 25, 40, 0.3);
+        }
+    </style>
+    
+</head>
+<body>
+    
+    <!-- ================== NAVBAR ================== -->
+    <nav class="navbar navbar-expand-lg fixed-top custom-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="logophoto.png"alt="Kayan Logo" style="height: 50px;">
+                Kayan <span class="highlight-yellow">Region</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="ethnic.html">Ethnic</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="educationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Education
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="educationDropdown">
+                            <li><a class="dropdown-item" href="kncu.html">KNCU</a></li>
+                            <li><a class="dropdown-item" href="knec.html">KNEC</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about us.html">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact us.html">Contact Us</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- ================== END NAVBAR ================== -->
+    <div class="titleandimg" style="display: flex; justify-content: center;margin-top: 30px;">
+        <h1  style="color: goldenrod;font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif" class="typewriter">ကယန်းလထာ၏ ရိုးရာဘဝ ပုံရိပ်များ</h1>    
+    </div>
+    <div class="container-fluid">
+
+        <div class="row">
+        <div class="row">
+            <!-- Image 1 -->
+            <div class="col-md-4">
+                <a href="#">
+                    <div class="image-container">
+                        <img src="latar2.png" alt="ရိုးရာဓလေ့">
+                        <div class="image-text">
+                            <h4>ပန်းခင်းထဲမှ အချစ်ရဲ့လှပမှု</h4>
+                            <p>
+                                တောင်တန်းတွေကိုနောက်ခံထားပြီး ပွင့်လန်းနေတဲ့ပန်းခင်းကြီးထဲမှာ
+                                မင်းနဲ့ငါရဲ့အချစ်တွေကလည်း ပန်းတွေလိုပဲ လှပစွာပွင့်လန်းနေခဲ့တယ်။
+                                မင်းရဲ့အပြုံးတစ်ချက်က ငါ့ကမ္ဘာကြီးကို အလင်းပေးနိုင်သလို
+                                မင်းရဲ့အကြည့်တစ်ချက်ကလည်း ငါ့နှလုံးသားကို အရည်ပျော်စေနိုင်တယ်။
+                                ဒီပန်းခင်းကြီးလိုပဲ ငါတို့ရဲ့အချစ်တွေကလည်း အမြဲတမ်းလန်းဆတ်ပြီး
+                                လှပနေမှာပါလို့ ငါကတိပေးပါတယ်။
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- Image 2 -->
+            <div class="col-md-4">
+                <a href="#">
+                    <div class="image-container">
+                        <img src="latar3.jpg" alt="ရိုးရာလက်မှုပညာ">
+                        <div class="image-text">
+                            <h4>ရွာလေးကိုမြင်ရတဲ့ မြတ်နိုးခြင်း</h4>
+                            <p>
+                                ငါတို့ရဲ့ရွာလေးကို အပေါ်စီးကနေကြည့်ရင်း
+                                ငါတို့ရဲ့အနာဂတ်ကို အတူတူပုံဖော်ခဲ့ကြတယ်။
+                                တစ်ယောက်လက်ကိုတစ်ယောက် မြဲမြဲတွဲပြီး
+                                ဘယ်လိုအခက်အခဲပဲကြုံလာကြုံလာ အတူတူရင်ဆိုင်မယ်လို့ သံဓိဌာန်ချခဲ့ကြတယ်။
+                                တောင်တန်းတွေက ငါတို့အချစ်ကို သက်သေအဖြစ်စောင့်ကြည့်နေသလို
+                                ငါတို့ရဲ့အချစ်ကလည်း ဒီတောင်တန်းတွေလိုပဲ ထာဝရတည်မြဲနေမှာပါ။
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- Image 3 -->
+            <div class="col-md-4">
+                <a href="#">
+                    <div class="image-container">
+                        <img src="lahtar.jpg" alt="လူငယ်စုံတွဲ၏ ကြည်နူးဖွယ်အခိုက်အတန့်">
+                        <div class="image-text">
+                            <h4>တဲအိမ်အတွင်းမှ နွေးထွေးမှု</h4>
+                            <p>
+                                ထင်းရှူးနံ့တွေသင်းပျံ့နေတဲ့ ငါတို့ရဲ့တဲအိမ်လေးထဲမှာ
+                                မီးဖိုဘေးမှာထိုင်ရင်း တစ်ယောက်ကိုတစ်ယောက် နွေးထွေးမှုတွေမျှဝေခဲ့ကြတယ်။
+                                အပြင်မှာဘယ်လောက်ပဲအေးစက်နေပါစေ၊ မင်းရဲ့အချစ်တွေရှိနေသမျှ
+                                ငါ့အတွက်တော့ နွေးထွေးတဲ့နွေရာသီပါပဲ။
+                                ဝါးနဲ့လုပ်ထားတဲ့ ငါတို့ရဲ့ရိုးရာပစ္စည်းတွေက သက်သေအဖြစ်ရှိနေမှာပါ…
+                                ဒီတဲအိမ်လေးထဲမှာ ငါတို့ရဲ့အချစ်တွေ ဘယ်လောက်ခိုင်မြဲတယ်ဆိုတာကိုပေါ့။
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="highlighted-desc">
+            <h1>(ကယန်းလထာ)ဇယိန်လူမျိုး</h1>
+            <p>ဇယိန်(ကယန်းလထာ)ကယန်းလူမျိုးသည် ရှမ်းပြည်နယ်တောင်ပိုင်း ပင်လောင်းမြို့နယ်နှင့် ဖယ်ခုံမြို့နယ်၊ နေပြည်တော် ပျဉ်းမနားမြို့နယ်၏ အရှေ့ဘက်တောင်ပေါ်ဒေသ၊ ကယားပြည်နယ်တို့တွင် နေထိုင်သော လူမျိုးစုတစ်စုဖြစ်သည်။ ထိုဒေသများရှိ ကျေးရွာပေါင်း ၆၅ ရွာတွင်နေထိုင်လျက်ရှိပြီး လူဦးရေအားဖြင့် ၂၀၁၃ ခုနှစ်စာရင်းအရ ၁၅,၂၄၅ ဦးရှိသည်။ ကယန်းလူမျိုးစုများဖြစ်သော ကယန်းလဟွီ၊ ကယန်းလထာ၊ ကယန်းကငန်နှင့် ကယန်းဂေခိုတို့ထဲတွင် လူဦးရေပိုနည်းသော အစုဖြစ်သည်။</p>
+        </div>
+        </div>
+    <div class="container detail-page">
+        <div class="video-frame mb-4" style="
+                border-color: #00ffff;
+                box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
+                padding: 15px;
+                text-align: center;
+                background-color: rgba(0, 255, 0, 0.1);
+                border-top: 1px solid #00ff00;
+                border-bottom: 1px solid #00ff00;
+                padding-bottom: 10px;
+                border-radius: 12px 12px 12px 12px;
+                min-height: 350px;
+            ">
+            <iframe width="680" height="315" src="lahtadance.mp4"title="Kayan Video" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+        </div>
+    </div>
+    <div>
+        <p class="highlighted-desc ">
+            ရှေးအခါက လွယ်လုံပြည်ခေါ် ယခု ပင်လောင်းနယ်ကို ကြီးစိုးနိုင်ခဲ့ဖူး၏။ ပင်လောင်းမြို့ကို ခရစ်နှစ် ၁၇၉၄ (မြန်မာနှစ် ၁၁၅၆) ခုနှစ်တွင် ဘန့်ဘာရွာတွင်အခြေစိုက်ခဲ့သော ဇယိန်စော်ဘွား လတိန်၏ညွန်ကြားချက်ဖြင့် လလွီ (Lalui) ဆိုသူအရာရှိတစ်ဦးက ဦးဆောင်တည်ထောင်ခဲ့ကြောင်း ပင်လောင်းမြို့၊ မွေတော်ဘုရားသမိုင်းအရ သိရသည်။ ဘိုးတော်ဘုရားလက်ထက် ၁၇၈၂ မှစ၍ လွယ်လုံနယ်အတွင်း စတင်ဝင်ရောက်နေထိုင်လာကြသော အောက်သထုံပြည်နေ ပအိုဝ်းများနှင့် ဒေသတွင်းနေရှမ်းများကို ပင်လောင်းမြို့အနီးတစ်ဝိုက်တွင် အခြေချနေထိုင်ခွင့်ပြုပြီး ပင်လောင်းမြို့ကို စည်ကားအောင်ပြုခဲ့၏။ လနော အမည်ရ စော်ဘွားလက်ထက်တွင် လွယ်လုံနယ်စားဖြစ်ကြောင်း ဗမာဘုရင်က လနောကို အသိအမှတ်ပြုခဲ့သည်။ နယ်စား လနော၏သားတော်များထဲမှ ရွှေနီအမည်ရှိသားတော်မှာ ဒေသခံရှမ်းအမျိုးသမီးနှင့် အကြောင်းပါပြီး ငပိုခေါ် သားတော်တစ်ပါးထွန်းကား၏။ ပင်လောင်းမြို့တောင်ဘက်ရှိ ရင်းမှီး (တဝီးမွူး) အရပ်၌တည်ထားသော စေတီသမိုင်းမှတ်တမ်းအရ ငပိုနောက်ပိုင်းတွင် မင်းပါရမီဆိုသူက ပင်လောင်းမြို့စားအဖြစ် အုပ်ချုပ်ခဲ့ဖွယ်ရှိကြောင်း သိရသည်။
+
+            အစ ပထမတွင် ရှမ်းနှင့် ပအိုဝ်းတို့အပေါ် လွှမ်းမိုးနိုင်ခဲ့သော်လည်း ၎င်းတို့၏ဆွေမျိုးနီးချင်းဖြင့်သာ အိမ်ထောင်ပြုသည့်အလေ့အထကြောင့် လူဦးရေတိုးပွားနုန်းနှေးကွေးလှပေရာ နောက်ပိုင်းတွင် ဇယိန်တို့လွှမ်းမိုးမှုလျှော့ပါးလာပြီး ရှမ်းနှင့် ပအိုဝ်းလူမျိုးတို့၏ လူနေမှုပုံစံအောက် ရောက်မှန်းမသိရောက်လာခဲ့သည်။ ၁၉၄၉ ခုနှစ် ဒီဇင်ဘာ ၁၁ တွင်ပြုလုပ်ခဲ့သော ပဒေသရာဇ်အာဏာရှင် စော်ဘွားများကို တော်လှန်သည့်ဖြစ်စဉ် ပင်လောင်းနယ်တွင်လည်း ဖြစ်ပွားခဲ့သည်။ ၁၉၅၉ ခုနှစ်တွင် ဗိုလ်ချုပ်နေဝင်းခေါင်းဆောင်သော အိမ်စောင့်အစိုးရက ရှမ်းပြည်ရှိစော်ဘွားများကို ဖိတ်ခေါ်ထိန်းသိမ်းပြီး အဏာစွန့်လွှတ်ကြောင်း လက်မှတ်ရေးထိုးစေသည့်နောက် ပင်လောင်းနယ်တွင် ဇယိန်တို့အုပ်ချုပ်မှု အဆုံးသတ်သွား၏။
+
+            ယခုအခါ ပင်လောင်းမြို့နယ်ရှိ ဇယိန်တိုင်းရင်းသားတို့အခြေချ နေထိုင်ခဲ့ရာရွာအများအပြား ပအိုဝ်းရွာဖြစ်ကုန်ပြီး ဒေသအခေါ် ပအိုဝ်း-ဇယိန်မှသည် ပအိုဝ်းစကားသာပြောတတ်သော ဇယိန်သွေးပါ ပအိုဝ်းများဖြစ်လာကြသည်။ ဝေးလံခေါင်ဖျား၊ တောင်ထူထပ်ပြီး လမ်းပန်းဆက်သွယ်ရေးမကောင်းသော ငှက်ဖျားထူထပ်ရာအရပ်များတွင်သာ ဇယိန်ကျေးရွာအချို့ သီးသန့်တည်ရှိတော့သည်။ ဇယိန်တို့နေထိုင်ရာဒေသည် ဖွံ့ဖြိုးမှုနည်းပြီး ပညာရေးတွင်လည်း နောက်ကျကျန်နေရဆဲဖြစ်သည်။ ပေါင်းလောင်းဘက်စုံရေလှောင်တမံတည်ဆောက်မှုဧရိယာအတွင်း ဇယိန်ကျေးရွာအချို့ ရေမြုပ်သည့်အထဲ ပါဝင်ခဲ့ကြောင်းသိရသည်။
+
+            ပုဂံခေတ်ကတည်းက ဤလွယ်လုံ (ပင်လောင်း) နယ်ကို သထုံမြို့အရှေ့တောင်ဘက်ရှိ ကျိုက္ခမီခရိုင်နေ ဆောင်းတွမ်းကရင်တို့ စတင်ရွေ့ပြောင်း နေထိုင်လာခဲ့ကြသည်။ ၎င်းတို့သည် ပင်လောင်းမြို့အနောက်ဘက်၊ ဘီလူးချောင်းစတင်ရာဒေသ၊ ငွေတောင်ရွာနှင့် နောင်ပုလဲရွာတို့၏ အနောက်တောင်ဘက်အရပ်ရှိ တောင်ကုန်းများတွင်ရွာတည်ကာ နေထိုင်ကြသည်။ ရွာအမည်ကို ဆောင်းတွမ်းဟု မှည့်ခေါ်ခဲ့ကြ၏။ နှစ်အတန်ကြာသော် ၎င်းတို့ထဲမှအများစုသည် လွယ်လုံနယ်တကြော တစ်နေရာမှတစ်နေရာသို့ ပြောင်းရွေ့ပြီး အသစ်အသစ်သော ရွာများတည်ထောင်နေထိုင်ရင်း မိမိတို့နေထိုင်ရာရွာ၏ နယ်နိမိတ်ကို အမှတ်အသားပြုပိုင်းခြားစပြုကြသည်။ အခါတစ်ပါး၌ လဆာအမည်ရှိ လုံကျယ်ရွာ၏အကြီးအကဲက ပဆွပ်ပနီကောင်များစွာအုံဖွဲ့နေသော သစ်ပင်တန်းကို သူ့ရွာ၏နယ်နိမိတ်ပြုခဲ့သည်။ ထိုသို့ရွာနယ်နိမိတ်သတ်မှတ်ပြီးမကြာမီ လနိန် အုပ်စိုးသော ဘန့်ဖြာရွာမှကလေးတစ်ဦး ပဆွပ်ပနီကောင်များ အကိုက်ခံရသည်။ လနိန်က နယ်နိမိတ်အဖြစ်သတ်မှတ်ထားသော ပဆွပ်ပနီအုံများနှင့် သစ်ပင်များကို မီးရှို့ဖျက်ဆီးလိုက်သည်။ ထိုအကြောင်းကို လဆာ ကြားသိသော် အလွန်စိတ်ဆိုးသွားပြီး ဘန့်ဖြာရွာကိုထိုးစစ်ဆင် သိမ်းယူရန်ကြံ၏။ မဟာမိတ်ပြုသည့်အနေဖြင့် လတိန် အမည်ရှိ သူ၏သားအား ဆောင်းဆီးရွာအကြီးအကဲ၏ သမီးနှင့်လက်ဆက်စေကာ ကြီးကျယ်ခမ်းနားသောမင်္ဂလာပွဲ စီစဉ်ပေးခဲ့သည်။ ထို့နောက် ပိုမိုသာလွန်သောစစ်အင်အားဖြင့် ဘန့်ဖြာရွာကို ကျူးကျော်တိုက်ခိုက်အောင်မြင်ခဲ့၏။ တိုက်ပွဲကာလအတွင်း ဘန့်ဖြာရွာသားအများအပြားအသတ်ခံခဲ့ရသည်။ လဆာသည်လည်း ဘန့်ဖြာရွာသို့ရွေ့ပြောင်း အခြေစိုက်နေထိုင်ခဲ့သည်။ လဆာလွန်သော် သူ၏သား လတိန်က အကြီးအကဲတာဝန်ကို ရယူပြီး အနီးပတ်ဝန်းကျင်ရှိ ကျေးရွာအများကိုသိမ်းသွင်း၏။ စုစည်းထားသောရွာအများကို တိုက်နယ်၁၂ ခုခွဲပြီး အနွယ်တော်များကို အုပ်ချုပ်စေသည်။ လွယ်လုံနယ်တွင် လူစည်ကားစေရန် သူ၏အရာရှိတစ်ဦးဖြစ်သူ လလွီအား ယခုပင်လောင်းမြို့ကို တည်ထောင်စေခဲ့သည်။
+        </p>
+        <div class="container detail-page" style="margin-bottom: 30px;">
+            <a href="ethnic.html" class="back-link"> RETURN TO ARCHIVE</a>
+        </div>
+    </div>
+
+
+    <footer class="footer-text">
+        <p>&copy; 2024 Kayan National University. All Rights Reserved.</p>
+    </footer>
+    <!-- Bootstrap 5 JS Bundle (includes Popper.js for dropdowns) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+</body>
+</html>

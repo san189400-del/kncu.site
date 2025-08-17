@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ကယန်းကငန်ရိုးရာဘဝ ပုံရိပ်များ</title>
+    
+     <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        .highlighted-desc{
+            padding: 2rem 1rem;
+            margin-bottom: 3rem !important;
+            border: 2px solid rgba(148,163,184,.15);
+            box-shadow: 0 10px 30px rgba(2,6,23,.5);
+            background: rgba(10, 25, 40, 0.3);
+            border-radius: 18px;
+            backdrop-filter: blur(2px);
+            transition: background 0.3s, border-color 0.3s;
+            color: #e0e0e0; 
+            margin-left: 5%;
+            margin-right: 5%;
+        } 
+    /*-- Add this new style block for responsive <p> and containers --*/
+   
+        p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 1.2rem;
+            word-break: break-word;
+            max-width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            p {
+                font-size: 1rem;
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+                text-align: left;
+            }
+            .container,
+            .container-fluid,
+            .detail-page,
+            [class^="col-"] {
+                padding-left: 0.5rem !important;
+                padding-right: 0.5rem !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                width: 100% !important;
+                max-width: 100vw !important;
+                box-sizing: border-box;
+            }
+            div[style*="width: 70rem"] {
+                width: 100% !important;
+                margin-left: 0 !important;
+            }
+        }
+
+        @font-face {
+            font-family: 'Myanmar Unicode';
+            src: local('Myanmar Text'), local('Pyidaungsu'), local('Padauk');
+        }
+
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            background-color: #0d0d0d; /* Near black */
+            color: #e0e0e0;
+            font-family:'Courier New', Courier, monospace;
+            font-weight: 20px;
+            background-image: 
+                linear-gradient(rgba(0, 255, 135, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 135, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .container-fluid {
+            padding-top: 50px;
+            padding-bottom: 50px;
+        }
+
+        .image-container {
+            padding: 2rem 1rem;
+            margin-bottom: 3rem !important;
+            border: 2px solid rgba(148,163,184,.15);
+            box-shadow: 0 10px 30px rgba(2,6,23,.5);
+            background: rgba(10, 25, 40, 0.3);
+            border-radius: 18px;
+            backdrop-filter: blur(2px);
+            transition: background 0.3s, border-color 0.3s;
+            color: #e0e0e0; 
+            margin-left: 5%;
+            margin-right: 5%;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .image-container:hover img {
+            transform: scale(1.1) rotateY(15deg);
+        }
+
+        .image-container:hover {
+            border-color: goldenrod;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+        }
+
+        .image-text {
+            padding: 15px;
+            text-align: center;
+            background-color: rgba(7, 46, 7, 0.1);
+            border-top: 1px solid #00ff00;
+            border-radius: 0 0 12px 12px;
+            min-height: 150px; /* To ensure consistent height */
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 50px;
+            color: goldenrod;
+            font-size: 3rem;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: inherit;
+            text-decoration: none;
+        }
+        
+
+    </style>
+
+    <!--menu bar style-->
+    <style>
+        /* --- CSS Variables for a Smart & Dynamic Theme --- */
+        :root {
+            --bg-color-start: #1B2735; /* Deep space blue */
+            --bg-color-end: #090A0F;   /* Near black */
+            --navbar-bg: rgba(10, 10, 10, 0.6); /* Darker, semi-transparent */
+            --accent-yellow: #FFD700; 
+            --accent-blue: #00BFFF;
+            --accent-red: #E53935;
+            --text-light: rgba(240, 240, 240, 0.9);
+            --text-white: #ffffff;
+            --nav-height: 75px;
+        }
+
+        
+        /* --- Aurora Glow Effect --- */
+        body::before, body::after {
+            content: '';
+            position: fixed;
+            z-index: -1;
+            filter: blur(100px);
+            opacity: 0.3;
+        }
+        
+        /* Blue Glow */
+        body::before {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--accent-blue), transparent 60%);
+            top: -100px;
+            left: -150px;
+        }
+
+        /* Red Glow */
+        body::after {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--accent-red), transparent 70%);
+            bottom: -50px;
+            right: -100px;
+        }
+
+
+        /* --- Custom Navbar with 3D Perspective --- */
+        .custom-navbar {
+            background-color: var(--navbar-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            min-height: var(--nav-height);
+            transition: background-color 0.3s ease-in-out;
+            perspective: 1500px; /* Crucial for 3D transforms on child elements */
+        }
+
+        /* --- Brand / Logo Styling --- */
+        .navbar-brand {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+        }
+        .navbar-brand .highlight-yellow {
+            color: var(--accent-yellow);
+        }
+
+        /* --- 3D Navigation Links Styling --- */
+        .navbar-nav .nav-link {
+            color: var(--text-light);
+            font-weight: 600;
+            position: relative;
+            padding: 0.5rem 1rem;
+            margin: 0 0.25rem;
+            transform-style: preserve-3d; /* Enable 3D space for the element */
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), color 0.3s;
+        }
+
+        /* The 3D hover effect! */
+        .navbar-nav .nav-link:hover {
+            color: var(--accent-blue);
+            transform: translateZ(30px) rotateX(-20deg);
+        }
+        
+        .navbar-nav .nav-link.active {
+            color: var(--accent-yellow);
+        }
+        
+        /* Animated Underline (moves with 3D transform) */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px; /* Position below the link */
+            left: 1rem;
+            right: 1rem;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-yellow));
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            transform: scaleX(1);
+        }
+        
+        /* --- 3D Dropdown Menu Styling --- */
+        .dropdown-menu {
+            background-color: rgba(20, 20, 20, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 0.5rem;
+            padding: 0.5rem 0;
+            margin-top: 1rem !important; /* Force space from navbar */
+            opacity: 0;
+            visibility: hidden;
+            transform: rotateX(-15deg);
+            transform-origin: top;
+            transition: all 0.3s ease-out;
+        }
+        
+        /* Show dropdown on hover */
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: rotateX(0deg);
+        }
+        
+        .dropdown-item {
+            color: var(--text-light);
+            padding: 0.75rem 1.5rem;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .dropdown-item:hover, .dropdown-item:focus {
+            background-image: linear-gradient(90deg, var(--accent-blue), var(--accent-yellow));
+            color: var(--bg-color-end);
+            transform: translateX(5px);
+        }
+        
+        /* --- Mobile Menu Toggler & Responsiveness --- */
+        .navbar-toggler {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 215, 0, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        @media (max-width: 991.98px) {
+            /* On mobile, disable 3D effects for a cleaner feel */
+            .navbar-nav .nav-link:hover {
+                transform: none;
+            }
+            .nav-link::after { display: none; } /* Hide underline on mobile */
+
+            /* Center items in the fullscreen mobile menu */
+            .navbar-collapse {
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            .navbar-nav .nav-item {
+                margin: 1rem 0;
+            }
+            .nav-link { font-size: 1.5rem; }
+            .dropdown-menu {
+                background: transparent;
+                border: none;
+                backdrop-filter: none;
+                text-align: center;
+                opacity: 1; /* Make visible for static display */
+                visibility: visible;
+                transform: none;
+                position: static;
+            }
+            .dropdown-item { font-size: 1.2rem; }
+            .dropdown-item:hover, .dropdown-item:focus {
+                background: none;
+                background-clip: border-box;
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                background-image: linear-gradient(90deg, var(--accent-yellow), var(--accent-blue));
+                transform: none;
+            }
+        }
+
+
+        /* --- Footer Styling --- */
+        .footer {
+            background-color: #000;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem 0;
+            color: var(--text-light);
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+
+    <!-- linkခလုပ် Stylesheet -->
+    <style>
+        .detail-page {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 10px 20px;
+            border: 1px solid lightblue;
+            width: 25rem;
+            color: lightblue;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+            margin: 20px, 2px;
+        }
+        .back-link:hover {
+            background-color: lightblue;
+            color: #0d0d0d;
+                
+        }
+        .linknextpage{
+            text-align: center;
+            margin-top: 2rem;
+                 
+        }
+        .footer-text {
+            color: lightblue;
+            letter-spacing: 2px;
+            opacity: 0.8;
+            border-top:2px solid rgb(40, 54, 40) ;
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(10, 25, 40, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ================== NAVBAR ================== -->
+    <nav class="navbar navbar-expand-lg fixed-top custom-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="logophoto.png"alt="Kayan Logo" style="height: 50px;">
+                Kayan <span class="highlight-yellow">Region</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="ethnic.html">Ethnic</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="educationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Education
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="educationDropdown">
+                            <li><a class="dropdown-item" href="kncu.html">KNCU</a></li>
+                            <li><a class="dropdown-item" href="knec.html">KNEC</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about us.html">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact us.html">Contact Us</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- ================== END NAVBAR ================== -->
+
+
+    <div class="container-fluid"  style="margin-top: 5rem;">
+        <h1>ကယန်းကငန်ရိုးရာဘဝ ပုံရိပ်များ</h1>
+        <div class="row">
+            <!-- Image 1 -->
+            <div class="col-md-4">
+                <a href="#">
+                    <div class="image-container">
+                        <img src="kangan2.jpg" alt="ဓာတ်ပုံ">
+                        <div class="image-text">
+                            <p> တောင်ယာကအပြန် အမောဖြေ၊
+                                ဖိုးဖွားတို့ရဲ့ အေးချမ်းတဲ့ဘဝပုံရိပ်...
+                                ရိုးရာခေါင်ရည်တစ်ခွက်နဲ့
+                                နေ့စဉ်ဘဝကို ဖြတ်သန်းကြ။</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- Image 2 -->
+            <div class="col-md-4">
+                <a href="#">
+                    <div class="image-container">
+                        <img src="Kangan1.jpg" alt="ဓာတ်ပုံ">
+                        <div class="image-text">
+                            <p>နှလုံးသားကလာတဲ့ တေးသံသာ၊
+                                ပလွေလေးနဲ့ မှုတ်လိုက်တော့...
+                                နားစွင့်နေသူ ပါးချိုင့်လေးနဲ့
+                                ကယန်းမြေမှာ အချစ်တွေ လန်းတယ်။</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        <!-- Image 3 -->
+            <div class="col-md-4">
+                <a href="#">
+                    <div class="image-container">
+                        <img src="kangan.jpg" alt="ဓာတ်ပုံ">
+                        <div class="image-text">
+                            <p>ဂစ်တာတစ်လက်နဲ့ အချစ်သီချင်းတွေ မဆိုခင်၊
+                                မောင့်အချစ်ဆုံးရဲ့ ဆံနွယ်လေးကို ပြင်ဆင်...
+                                ရှက်ပြုံးလေးနဲ့ မင်းရဲ့အလှက၊
+                                ရင်ခုန်သံတွေကို ပိုမြန်စေတယ်။</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="highlighted-desc">
+        <h1>ကယန်းကငန်(ယင်းဘော်)</h1>
+        <P>ယင်းဘော်ကိုအချို့က “ယန်းဘော် ” ဟုလည်း အသံပြောင်းခေါ်ကြသည်။ ကယန်း လေးမျိုးတွင် လည်ပင်း၌ ငွေပြားများချိတ်ဆွဲ ဝတ်ဆင်လေ့ရှိသူများကို 
+                ကယန်းကငန်ဟု ခေါ်၏။ ထိုကယန်းနွယ်ဝင် ကယန်းကငန်အမည် ရခဲ့သူတို့အား နောင်တွင်ယင်းဟုအမည်စွဲ ခေါ်ကြခြင်းဖြစ်သည်။ ထို့ကြောင့် ယနေ့တိုင် ကယန်းယင်းဘော်ဟုလည်း လူမျိုးစွဲအမည် အဖြစ်စွဲကျန်ရှိနေသေး၏။ ဒီးမော့ဆိုမြို့နယ် ဆောင်ဒူလာ၊ ငံရိုး၊ ဆော်ပထန်၊ ဒေါတဝီ၊ ဒေါဝယ်ကူး၊ 
+                ဒေါခလိုက်လင်း၊ ဆိုဒဲ့ခူး၊ ယူဆ မိုဆို ကျေးရွာများတွင် စုစုခဲခဲတွေ့ရသည်။ ၁၉၆၅ ခုနှစ် (၁၈) ကြိမ်မြောက် ပြည်ထောင်စုနေ့တွင် 
+                တိုင်းကြီးကြပ်ရေးကော်မတီ၊ တိုင်းခွဲ (၉) မှ တင်ပြသောစာရင်းအရ ယင်းဘော်လူမျိုး ၄၀၀ဝ ခန့်ရှိသည်ဟု ဖော်ပြထားပါသည်။ ယခု အခါ ၂၀၀၀၀ နီးပါးခန့် ရှိနိုင်ပေပြီ။
+        </P>
+        <h2>ဆင်းသက်ပေါက်ဖွားလာပုံ</h2> 
+        <P>မနုဿဗေဒရှုထောင့်အရ မြန်မာနိုင်ငံ အတွင်းရှိ တိုင်းရင်းသားအားလုံးတို့သည် မွန်ဂိုလွိုက်လူမျိုးနွယ် (Mongoloid stock) ဆင်းသက်လာခြင်းဖြစ်သည်။ ရေမြေချောင်းခြားခဲ့ခြင်း၊ မြေပြန့်တောင်ပေါ် လမ်းခရီးခက်ခဲခြင်း၊ တို့ကြောင့် ပထဝီအနေအထားအရ တစ်ဦးနှင့် တစ်ဦး အဆက်အသွယ် ပြတ်ခဲ့ကာ ရောက်ရာအရပ်၌ ကိုယ့်အစုအဝေးနှင့်ကိုယ် နေထိုင်ကြခြင်း၊ ရာသီဥတု ပတ်ဝန်းကျင်ချင်း မတူညီ ခဲ့ခြင်းတို့ကြောင့် အပြောအဆို၊ အနေအထိုင်၊ အဝတ်အစားနှင့် ယဉ်ကျေးမှုဓလေ့ထုံးစံများ ကွဲပြားနေခြင်းသာဖြစ်သည်ဟုလည်း ဆိုပါသည်။
+            မွန်ဂိုလွိုက်နွယ်ဝင်တို့သည် တိဗက် ကုန်းမြေမြင့်မှ တိဗက်မြန်မာအုပ်စု၊ မွန်ခမာ အုပ်စု၊ ထိုင်း-တရုတ်အုပ်စုဟူ၍ သုံးမျိုးကွဲကာတောင်ဘက်သို့ ဆင်းသက်လာခဲ့ရာ 
+            သံလွင်မြစ်ကြောင်းအတိုင်း ဝင်ရောက်လာသော ထိုင်းတရုတ်အုပ်စုသည် ဦးစွာ ကရင်နှင့် ရှမ်းဟူ၍ နှစ်မျိုးကွဲခဲ့သည်။ ကရင်အုပ်စုတွင် ကရင်နီ (ခေါ်) ကယားတို့လည်း ပါဝင်၏။ ကယား အုပ်စုတွင်ပင် ကယန်းနွယ်ဝင် ကယန်းကငံ (ခေါ်) ယင်းဘော်တို့လည်း ပါဝင်ကြောင်း တိုင်းရင်းသား သုတေသီဦးမင်းနိုင်က အမှာထား ခဲ့ဖူးပါသည်။ သို့အတွက် ယင်းဘော်တို့ကိုလည်း ထိုင်းတရုတ်အနွယ်ဝင်များဟု သတ်မှတ် ခဲ့ခြင်းဖြစ်ပေသည်။ ထို့ကြောင့် ယင်းဘော်တို့သည် အာရှတိုက်အလယ်ပိုင်း မွန်ဂိုကုန်းမြေမြင့်မှ တောင်တန်းများနှင့် တာရင့်မြစ်ဝှမ်းတွင် နေထိုင်ခဲ့ကြရာမှ တောင်ဘက်ပိုင်း သို့တရွေ့ရွေ့ ဆင်းသက်ခဲ့ပြန်ရာ သံလွင်မြစ်ကြောင်းအတိုင်း မြန်မာနိုင်ငံအတွင်းသို့ 
+            ဝင်ရောက်ခဲ့ကြကာ ကယားပြည်နယ် ဒီးမော့ဆိုမြို့နယ်သို့ ရောက်ရှိ နေထိုင်လာခဲ့သူများပင်ဖြစ်ပေသည်။
+        </P>
+        <h2>လူမှုစီပွားရေး</h2>
+        <p>ယင်းဘော်တို့သည် အခြားတိုင်းရင်းသားများနည်းတူ စိုက်ပျိုးရေးနှင့် မွေးမြူရေးလုပ်ငန်း များကိုလုပ်ကိုင်ကြသည်။ မိမိပိုင်တောင်ယာ လယ်ယာမြေများကို ဝိုင်းဝန်းလုပ်ကိုင်လေ့ရှိသည်။ မြေကိုအငှားချခြင်း၊ ရောင်းစားခြင်း မပြုတတ်ကြပေ။ သူတို့၏တောင်ယာများမှာ ရွာနှင့် ခုနှစ်မိုင်၊ ရှစ်မိုင်မျှ ကွာဝေးလေရာ မိမိပိုင်ဖြစ်ကြောင်း သစ်ငုတ်၊ ကျောက်တုံးများဖြင့် အမှတ်အသား ပြုလုပ်ထားတတ်သည်။
+            တောင်ယာမစိုက်မီ ရေရရှိရေးအတွက် ချောင်းမြောင်းများ ပြုပြင်ပိတ်ဆို့ခြင်း၊ နတ်ပူဇော်ခြင်းများ ပြုလုပ်လေ့ရှိသည်။ 
+            မြေပြန့်တွင် လယ်ယာစိုက်၍ တောင်စောင်း၌ လှေကားထစ်တောင်ယာ စိုက်ကြသည်။ တောင်ယာလုပ်ငန်းပြီးချိန်တွင် ဥယျာဉ်ခြံမြေ များပါစိုက်ကြသည်။ 
+            မြေဩဇာကောင်းသည့် ဥယျာဉ်ခြံမြေတွင် ဒူးရင်းခြံ၊ နာနတ်ခြံ၊ လိမ္မော်ခြံ၊ ငှက်ပျောခြံ၊ ကော်ဖီခြံ၊ သရက်ခြံများပါစိုက် ကြသည်။
+            သူတို့၏အခြားလုပ်ငန်းမှာ တောလိုက်ခြင်း နှင့် အမဲလိုက်ခြင်းပင်။ ငါးကိုချောင်းပိတ်၊ မြောင်းပိတ်၍ ပိုက်တိုက်ခြင်း၊ 
+            ပြုံးထောင်ခြင်းဖြင့် ဖမ်းယူလေ့ရှိသည်။ သားကောင်ကိုမူ သံညှပ်၊ သံကွင်းများထောင်၍ ဖမ်းသည်က များသည်။ ယင်းဘော်တို့ဘာသာစကားဖြင့် ဘူးခေါင်း (ခေါ်) သားကောင်ဖမ်းနည်းကိုလည်း အသုံးပြုသည်။ သစ်တုံးကို အပေါ်မှကြိုးဖြင့် ဆွဲထားကာ အောက်တွင် အစာချပြထားသည်။ သားကောင်က လာစားမှခလုတ်ကို ဖြုတ်ချလိုက်ရာ သားကောင်မှာတုံးပိပြီး သေဆုံးသွားစေသည့်နည်း ဖြစ်သည်။
+            ကေလာ(ခေါ်) ထောင်ချောက်ဆင်နည်း ကိုလည်းသုံးကြသည်။ ယင်းနည်းမှာ သစ်ကိုင်း (သို့) ဝါးကို တစ်ဖက်တွင် ချည်နှောင်ထားပြီး ဝါးကိုင်းကိုညွတ်အောင် ပြုလုပ်ကာ အချွန်များ တပ်ဆင်ထားသည်။ သားကောင်များ အစာလာစားလျှင် ညွှတ်ကွင်းကို လွှတ်လိုက်သည်။ ထိုအခါသားကောင်၏ လည်ပင်းတွင် ဝါးချွန်များစူးဝင်ပြီး သေအောင်ပြုလုပ်ခြင်းဖြစ်သည်။ သမင်၊ ဒရယ်၊ ချေငယ်၊ စိုင်၊ ဆတ်များကို တစ်နေ့ လုံးတောချောက်၍ မောဟိုက်လာမှ ပိတ်ဆို့ ပစ်ခတ်ဖမ်းဆီးကြသည်။ ကျားဆိုလျှင် လင့်စင် ထိုး၍ အစာကို ချထားသည်။ ကျားလာစားလျှင် လင့်စင်ပေါ်ရှိ မုဆိုးများက တူမီးသေနတ် သုံးလေးလက်ဖြင့် ဝိုင်းဝန်းပစ်ခတ်ကာ ကျားသေမှ သစ်ပင်အောက် ဆင်းကောက်ကြသည်။ ကျွဲ၊ နွား၊ ကြက်၊ ဝက်များကိုမိသားစု စားရန်နှင့် နတ်ပူဇော်ရန်အတွက် အိမ်တွင် အနည်းငယ်မွေးမြူကြသည်။ အမျိုးသားများက ရွာပြင်ထွက် အလုပ်လုပ်နေချိန် အိမ်တွင်းနေ အမျိုးသမီးများကလည်း ဂျပ်ခုတ်ရက်ကန်းများရက်သည်။
+        </p>
+        <h2>ဘာသာစာပေစကား</h2>
+        <p>ယင်းဘော်တို့တွင် ကိုယ်ပိုင်စာပေမရှိ။ စကားသာရှိသည်။ ယင်းဘော်တို့၏ ကိုယ်ပိုင် ဆက်သွယ်ရေး ကိရိယာသည်ယင်းဘော်ဘာသာ စကားပင်ဖြစ်သည်။ 
+            ယင်းဘော်တို့ ပြောဆိုသောစကားမှာ ကယန်း(ပဒေါင်)၊ ဂေခို(ကယန်းကဒေါ့) စကားနှင့် အနည်းငယ်ဆင်သည်။ ယင်းဘော်စကားနှင့် အနီးစပ်ဆုံးစကားမှာ ကချင်ပြည်နယ် မြောက်ပိုင်းရှိ ရဝမ်စကားပင် ဖြစ်သည်။ တောင်နှစ်လုံး သုံးလုံးခြားသွားသော ရွာများရှိ ယင်းဘော်များပြောသော စကားတူသော်လည်း လေယူလေသိမ်း ကွဲပြားသည်။ လူမျိုးတိုင်းသည် ကိုယ်ပိုင်ဘာသာ စကားအခြေခံ၍ စာပေတီထွင်ကာ ဖွံ့ဖြိုးတိုးတက်အောင် ဆောင်ရွက်ကြသည်။ ယင်းဘော်တို့သည်လည်း ကိုယ်ပိုင်ဘာသာစကားနှင့် ဆီလျော်မည့် ယင်းဘော်စာပေတစ်ရပ် တီထွင်ကာ မျိုးဆက်သစ်လူငယ်များအား စာပေသင်ကြားပေးမှုနှင့် စာပေယဉ်ကျေးမှုတို့ ကို ဖွံ့ဖြိုးအောင်ဆောင်ရွက်သင့်ပေပြီ။
+        </p>
+        <h2>ရိုးရာဝတ်စားဆင်ယင်မှု</h2>
+        <p>ယင်းဘော်အမျိုးသားများ၏ အတွင်းခံအင်္ကျီမှာ အဖြူရောင် လက်ပြတ်ဖြစ်သည်။ အပေါ်မှ ရင်ကွဲတိုက်ပုံအင်္ကျီ အနက်ကိုဝတ်ဆင် ကြသည်။ အပေါ်အင်္ကျီမှာ လက်စကဖြစ်ပြီး ကြယ်သီးမပါသောခါးတို အင်္ကျီဖြစ်သည်။ ကြယ်သီးအစားကြိုးများကို တတ်ဆင်ထား သည်။ ဒူးအထက်ထိရှည်သော ဘောင်းဘီ တိုတိုဝတ်ဆင်ကြသည်။ ဘောင်းဘီကို သိုးမွှေး ပန်းဖွားများဖြင့် လှပစေရန်မွမ်းမံထားကြသည်။ ရောင်စုံခေါင်းပေါင်းများကိုလည်း ပေါင်းကြသည်။ ပွဲသဘင်အခါများတွင် ပေါင်းသော ခေါင်းပေါင်းများ၏ အနားပတ်လည် တွင်ပုတီးစေ့များကို အလှတပ်ဆင်၍ ထားကြသည်။
+        ရှေးက ယင်းဘော်တိုင်းရင်းသားတို့သည် ဆံပင်အရှည်ထား၍ သျှောင်ထုံးကြသည်။ သျှောင်ပေါ်တွင် ဒန်ဆံထိုး၊ ဝါးဆံထိုးများ ထိုးတတ်သည်။ ခေါင်းတွင် ဘီးစိုက်ပြီးနားဆွဲ ဆွဲထားခြင်းမှာလည်း တစ်မျိုးဆန်းလှသည်။ နားဆွဲတွင် အခြားတိုင်းရင်းသားများလိုပင် သိုးမွှေးရောင်စုံများ ချည်နှောင်ထားသည်။ ဒူးအောက်တွင် သစ်စေးကွင်းလေးငါးကွင်း စွပ်ထားသည်။ ခါးပတ်ပတ်ပြီး လည်ပင်းတွင် ကျောက်ပုတီးစေ့ လည်ဆွဲများလည်းဆွဲထားသည်။ ချမ်းသာသော ယင်းဘော်များသည် ငွေဓားလွယ်၊ ဆင်စွယ်ဓားမြှောင်၊ ငွေကွမ်းအစ်များ ကိုင်ကြသည်။
+        အမျိုးသမီးများအနေဖြင့် ဖျင်အင်္ကျီ အနက်ရောင်ကို လက်ဖြင့်ချုပ်၍ဝတ်သည်။ ဒူးဆစ်အထိဖုံးသော ထဘီတို့နှင ဒူးခေါင်းကွေး ထိရှည်လျားသော ခြုံထည်အမဲများကို အပေါ်က လွှမ်းခြုံထားတတ်ကြသည်။ ခြုံထည်မှာ ကတ္တီပါစ(သို့) အနက်ရောင်ပိတ်စဖြစ်သည်။
+        ရောင်စုံပုတီးကို ခါးတွင်ပတ်ပြီးအပေါ်မှ ပုဝါအဖြူစည်း၍ ရှေ့တွင်အမြတ်များ ချထားသည်မှာ တစ်မျိုးကြည့်ကောင်းပါသည်။ ယင်းဘော် အမျိုးသမီးတို့သည် ခေါင်းထိပ်တွင်ဆံထိုးများ ထိုးလေ့ရှိသည်။
+        ချမ်းသာသောသူများက ငွေနားတောင်းများ ပန်ဆင်သည်။ ဆင်းရဲသူများက ဒန်ဖြင့် ပြုလုပ်သော နားဆွဲများကိုဆွဲသည်။ လည်ပင်း၌ ဒေါ်လာပြားဝိုင်းကဲ့သို့ အပြားဝိုင်း များဆွဲထားသော ကျောက်စိမ်းများပါ ဆင်ယင်တတ်ကြသည်။ ကျောက်စိမ်းမရလျှင် ကနုကမာနှင့် အခြားရောင်စုံ ကြိုးများဆွဲ သည်။ လက်တစ်ဖက်စီ၌ ငွေလက်ကောက် တစ်ရံစီဝတ်၍ ဒူးနှင့် ခြေသလုံးတွင် သစ်စေး ကြိုးခွေသုံးလေးခု စွပ်ကာ၊ ခြေချင်းဝတ် တွင်လည်း ရောင်စုံပုတီးများဆင်ယင်တတ်ကြသည်။</p>
+        <h2> လူမှုရေးဓလေ့များ </h2>
+        <p>ယင်းဘော်တိုင်းရင်းသားတို့၏ လူပျို အပျို ဆက်ဆံရေးဓလေ့မှာ အရွယ်ရောက်သူတိုင်း လွတ်လပ်စွာ ပိုးပန်းခွင့်ရှိသည်။ လူပျိုကအပျို အိမ်သို့ လူပျိုလှည့်အလည်သွားလျှင် အပျိုက ရေနွေးကြမ်းအိုးဖြင့် ည ၁၀ နာရီ၊ ၁၁ နာရီအထိ စကားပြောရင်း ဧည့်ခံသည်။ အခြားပိုးပန်းနည်း မှာ ထင်းခွေ၊ ရေခပ်သွားချိန် လိုက်လံစကား ပြောခြင်းပင်ဖြစ်သည်။ လူပျိုအပျိုစကား ပြောကြားရာတွင် ရိုးရာအတိုင်းစကားထာ၊ စကားဝှက်များ အသုံးပြုခြင်း၊ သီချင်းအပြန် အလှသီဆိုခြင်းလုပ်တတ်ကြသည်။
+        ယင်းဘော်တို့သည် ရှေးအခါကမိမိတို့နှင့် အိမ်နီးချင်း ကယားအုပ်စုဝင်များဖြစ်ကြသည့် ကယား၊ ပရဲ(ကယော)၊ ကယန်းတို့နှင့် စကားချင်းလည်းမတူ၊ တစ်မျိုးစကားတစ်မျိုး နားမလည်ကြသောကြောင့် လက်ထပ်လေ့မရှိကြပေ။ ယခုအခါတွင် တစ်မျိုးစကားတစ်မျိုး နားလည်ကာ ရင်းနှီးမှုများ ရှိလာကြပြီဖြစ်၍ လက်ထပ်မှုများလည်း ရှိလာကြပေပြီ။ ယင်းဘော်တို့၏ အိမ်ထောင်ဖက်ရွေးချယ်မှု စနစ်တွင် သုံးပွင့်ဆိုင် လေးပွင့်ဆိုင်စနစ်များ ငြိစွန်းမှုရှိ၊ မရှိ မျိုးရိုးကို စစ်ဆေးလေ့ရှိကြသည်။ ဤနေရာတွင် ယင်းဘော်တို့၏အိမ်ထောင်ဖက် ရွေးချယ်မှုစနစ်ကိုရှင်းပြရန် လိုအပ်လာပါသည်။
+        ယင်းဘော်တို့သည် သွေးသားအလွန်နီးစပ်သော မောင်နှမဝမ်းကွဲ၊ ဦးလေးနှင့် တူမ လက်ထပ်ခွင့်ကို တားမြစ်ထားသည်။ သို့သော် တစ်ဝမ်းကွဲမြေးနှင့် အဘိုးအဘွားတို့ လက်ထပ်ခြင်းကို ဓလေ့ထုံးစံအရ လက်ထပ်ခွင့်ပြုထားကြောင်း တွေ့ရသည်။ သုံးပွင့်ဆိုင် လေးပွင့်ဆိုင်စနစ် ဆိုသည်မှာ (က) မိသားစုမှ သားသမီးတစ်ဦးသည် (ခ) မိသားစုမှ သားသမီးတစ်ဦးနှင့် လက်ထပ်ထားသည်။ (ဂ) မိသားစု သားသမီးတစ်ဦးသည် (က)မိသားစုသားသမီးတစ်ဦးနှင့် လက်ထပ်ထားသည် ဆိုကြပါစို့။ ဤသို့ဆိုလျှင် (ဂ) မိသားစုမှ သားသမီးများသည် (က)မိသားစုမှ သားသမီးများနှင့် လက်ထပ်ခွင့်မရှိပေ။
+            <div class="container detail-page">
+                <a href="ethnic.html" class="back-link"> RETURN TO ARCHIVE</a>
+            </div>
+
+        </p>
+    </div> 
+    
+    <footer class="footer-text">
+        <p>&copy; 2024 Kayan National University. All Rights Reserved.</p>
+    </footer>
+
+<!-- Bootstrap 5 JS Bundle (includes Popper.js for dropdowns) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+</body>
+</html>

@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team us</title>
+    <link rel="shortcut icon" href="KyNU.png">
+    <!-- Bootstrap 5 CSS -->
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!--menu bar style-->
+    <style>
+        /* --- CSS Variables for a Smart & Dynamic Theme --- */
+        :root {
+            --bg-color-start: #1B2735; /* Deep space blue */
+            --bg-color-end: #090A0F;   /* Near black */
+            --navbar-bg: rgba(10, 10, 10, 0.6); /* Darker, semi-transparent */
+            --accent-yellow: #FFD700; 
+            --accent-blue: #00BFFF;
+            --accent-red: #E53935;
+            --text-light: rgba(240, 240, 240, 0.9);
+            --text-white: #ffffff;
+            --nav-height: 110px;
+        }
+
+        /* --- General Body & Dynamic Background --- */
+        body {
+            font-family:'Courier New', Courier, monospace;
+            background-color: var(--bg-color-end);
+            background-image: radial-gradient(ellipse at bottom, var(--bg-color-start) 0%, var(--bg-color-end) 100%);
+            color: var(--text-light);
+            padding-top: var(--nav-height);
+            min-height: 100vh;
+            overflow-x: hidden; /* Hide horizontal scrollbar caused by glows */
+            position: relative; /* Needed for positioning the aurora glows */
+                        background-image: 
+                linear-gradient(rgba(0, 255, 135, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 135, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        /* --- Aurora Glow Effect --- */
+        body::before, body::after {
+            content: '';
+            position: fixed;
+            z-index: -1;
+            filter: blur(100px);
+            opacity: 0.3;
+        }
+        
+        /* Blue Glow */
+        body::before {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--accent-blue), transparent 60%);
+            top: -100px;
+            left: -150px;
+        }
+
+        /* Red Glow */
+        body::after {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--accent-red), transparent 70%);
+            bottom: -50px;
+            right: -100px;
+        }
+
+
+        /* --- Custom Navbar with 3D Perspective --- */
+        .custom-navbar {
+            background-color: var(--navbar-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            min-height: 155px;
+            transition: background-color 0.3s ease-in-out;
+            perspective: 1500px; /* Crucial for 3D transforms on child elements */
+        }
+
+        /* --- Brand / Logo Styling --- */
+        .navbar-brand {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+        }
+        .navbar-brand .highlight-yellow {
+            color: var(--accent-yellow);
+        }
+
+        /* --- 3D Navigation Links Styling --- */
+        .navbar-nav .nav-link {
+            color: var(--text-light);
+            font-weight: 600;
+            position: relative;
+            padding: 0.5rem 1rem;
+            margin: 0 0.25rem;
+            transform-style: preserve-3d; /* Enable 3D space for the element */
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), color 0.3s;
+        }
+
+        /* The 3D hover effect! */
+        .navbar-nav .nav-link:hover {
+            color: var(--accent-blue);
+            transform: translateZ(30px) rotateX(-20deg);
+        }
+        
+        .navbar-nav .nav-link.active {
+            color: var(--accent-yellow);
+        }
+        
+        /* Animated Underline (moves with 3D transform) */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px; /* Position below the link */
+            left: 1rem;
+            right: 1rem;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-yellow));
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            transform: scaleX(1);
+        }
+        
+        /* --- 3D Dropdown Menu Styling --- */
+        .dropdown-menu {
+            background-color: rgba(20, 20, 20, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 0.5rem;
+            padding: 0.5rem 0;
+            margin-top: 1rem !important; /* Force space from navbar */
+            opacity: 0;
+            visibility: hidden;
+            transform: rotateX(-15deg);
+            transform-origin: top;
+            transition: all 0.3s ease-out;
+        }
+        
+        /* Show dropdown on hover */
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: rotateX(0deg);
+        }
+        
+        .dropdown-item {
+            color: var(--text-light);
+            padding: 0.75rem 1.5rem;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .dropdown-item:hover, .dropdown-item:focus {
+            background-image: linear-gradient(90deg, var(--accent-blue), var(--accent-yellow));
+            color: var(--bg-color-end);
+            transform: translateX(5px);
+        }
+        
+        /* --- Mobile Menu Toggler & Responsiveness --- */
+        .navbar-toggler {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 215, 0, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        @media (max-width: 991.98px) {
+            /* On mobile, disable 3D effects for a cleaner feel */
+            .navbar-nav .nav-link:hover {
+                transform: none;
+            }
+            .nav-link::after { display: none; } /* Hide underline on mobile */
+
+            /* Center items in the fullscreen mobile menu */
+            .navbar-collapse {
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            .navbar-nav .nav-item {
+                margin: 1rem 0;
+            }
+            .nav-link { font-size: 1.5rem; }
+            .dropdown-menu {
+                background: transparent;
+                border: none;
+                backdrop-filter: none;
+                text-align: center;
+                opacity: 1; /* Make visible for static display */
+                visibility: visible;
+                transform: none;
+                position: static;
+            }
+            .dropdown-item { font-size: 1.2rem; }
+            .dropdown-item:hover, .dropdown-item:focus {
+                background: none;
+                background-clip: border-box;
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                background-image: linear-gradient(90deg, var(--accent-yellow), var(--accent-blue));
+                transform: none;
+            }
+        }
+     .titleandimg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 40px;
+    min-height: 800px;
+    background:linear-gradient(rgba(10,25,40,0.55), rgba(10,25,40,0.55)),url('a1.jpg') center center/cover no-repeat;
+    border-radius: 10px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    position: relative;
+    width: 100%;
+    max-width: 100vw;
+    overflow: hidden;
+}
+    /* Panels / cards */
+    .panel{background: linear-gradient(180deg, rgba(30,41,59,.35), rgba(30,41,59,.15)); border:2px solid rgba(148,163,184,.15); border-radius: 18px; box-shadow: 0 10px 30px rgba(2,6,23,.5)}
+    </style>
+    <style>
+.typewriter {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 2.5rem;
+  animation: typing 2.5s steps(13, end) forwards, blink-caret .75s step-end infinite;
+  width: 0;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 13ch; } /* "MEET OUR TEAM" is 13 characters */
+}
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: #FFD700; }
+}
+        .JellyMoon {
+        transition: transform 0.5s cubic-bezier(.25,.8,.25,1), box-shadow 0.5s;
+        }
+        .JellyMoon:hover {
+        transform: perspective(600px) rotateY(18deg) rotateX(8deg) scale(1.07);
+        box-shadow: 0 0 32px 0 #39ff14, 0 2px 8px rgba(0,0,0,0.18);
+        }
+
+                /*===== Basic Reset and Body =====*/
+        *{
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        }
+        /* ===== Section Title ===== */
+        .team-meet h1{
+        text-align: center;
+        margin-bottom: 30px;
+        margin-top: 50px;
+        font-size: 36px;
+        color: chartreuse;
+        }
+        /* ===== Team Container ===== */
+        .team-meet{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px;
+        }
+        /* ===== Individual Member Card ===== */
+        .team-meet > div {
+        background-color: #073535;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,01.);
+        width: 220px;
+        text-align: center;
+        transition: transform 0.3s ease;
+        box-shadow: 0 4px 10px rgba(255, 255, 255,0.05);
+        }
+        .team-meet > div:hover{
+        transform: translateY(-18px) scale(1.04) rotateZ(-2deg);
+        box-shadow: 0 16px 32px rgba(57,255,20,0.18), 0 10px 20px rgba(0,0,0,0.2);
+        transition: transform 0.4s cubic-bezier(.25,.8,.25,1), box-shadow 0.4s;
+        }
+        /* ====== Profile Image ===== */
+        .logo{
+        width: 80px;
+        height: 80px;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 15px;
+        border: 3px solid #007BFF;
+        transition: border-color 0.4s, box-shadow 0.4s;
+        }
+        .logo:hover {
+        border-color: #39ff14;
+        box-shadow: 0 0 24px 0 #39ff14, 0 2px 8px rgba(0,0,0,0.15);
+        }
+        /* ===== Text Below Image ===== */
+        .text-below{
+        font-size: 14px;
+        color: #555;
+        }
+        /* ===== ID, Name, Role Styling ===== */
+        .id{
+        font-weight: bold;
+        color: goldenrod;
+        margin-bottom: 5px;
+        }
+        .name{
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 5px;
+        color:#aaa;
+        }
+        .role{
+        font-style: italic;
+        color:goldenrod;
+        }
+        /* Already existing */
+        .team-meet{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px;
+        }
+        /* Responsive design */
+        @media (max-width: 600px) {
+        .team-meet > div {
+            width: 90%;
+        
+        }
+
+        .name {
+        font-size: 30px;
+        }
+        .id, .role {
+        font-size: 12px;
+        } 
+        }
+        @media (prefers-color-scheme: dark) {
+        body{
+            background-color: #121212;
+            color: #ddd;
+        }
+
+        
+        .role{
+            color: greenyellow;
+        }
+    }
+        
+    
+        .team-meet > div:nth-child(2) {
+        animation-delay: 0.2s;
+        }
+        .team-meet > div:nth-child(3) {
+        animation-delay: 0.4s;
+        }
+        /* etc... */
+        @keyframes fadeInup {
+        to{
+            opacity: 1;
+            transform: translateY(0);
+        }
+        }
+        .highlighted-desc {
+            padding: 2rem 1rem;
+            margin-bottom: 3rem !important;
+            border: 1px solid rgba(148,163,184,.15);
+            box-shadow: 0 10px 30px rgba(2,6,23,.5);
+            background: rgba(10, 25, 40, 0.3);
+            border-radius: 18px;
+            backdrop-filter: blur(2px);
+            transition: background 0.3s, border-color 0.3s;
+            color: #e0e0e0; 
+        } 
+                .footer-text {
+            color: lightblue;
+            letter-spacing: 2px;
+            opacity: 0.8;
+            border-top:2px solid rgb(40, 54, 40) ;
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(10, 25, 40, 0.3);
+        }
+    </style>
+
+
+</head>
+ 
+<body>
+     <!-- ================== NAVBAR ================== -->
+    <nav class="navbar navbar-expand-lg fixed-top custom-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="logophoto.png"alt="Kayan Logo" style="height: 50px;">
+             Kayan <span class="highlight-yellow">Region</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon">
+            </span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="ethnic.html">Ethnic</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="educationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Education
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="educationDropdown">
+                        <li><a class="dropdown-item" href="kncu.html">KNCU</a></li>
+                        <li><a class="dropdown-item" href="knec.html">KNEC</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="about us.html">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact us.html">Contact Us</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </nav>
+
+    <!-- ================== END NAVBAR ================== -->
+     <div class="titleandimg" style="display: flex; justify-content: center; margin-top: 50px;">
+        <h1  style="color: yellow;" class="typewriter">MEET OUR TEAM</h1>    
+    </div>
+
+    <selection class="team-meet highlighted-desc">
+        
+        <div class="saw ZulyHtun">
+            <img src="Atun.jpg" alt="logo" class="logo">
+            <p class="text-below">
+                <div class="id">KNCU-24009</div>
+                <div class="name">Saw ZulyHtun</div>
+                <div class="role">Homepage</div>
+            </p>
+        </div>
+
+        <div class="JellyMoon">
+            <img src="Moon.jpg" alt="logo" class="logo">
+            <p class="text-below">
+                <div class="id">KNCU-24011</div>
+                <div class="name">JellyMoon</div>
+                <div class="role">Homepage</div>
+            </p>
+        </div>
+
+        <div class="PhyoThureinLin">
+            <img src="ThureinLin.jpg" alt="logo" class="logo">
+            <p class="text-below">
+                <div class="id">KNCU-24014</div>
+                <div class="name">PhyoThureinLin</div>
+                <div class="role">Ethnic</div>
+            </p>
+        </div>
+
+        <div class="SandarOo">
+            <img src="San.jpg" alt="logo" class="logo">
+            <p class="text-below">
+                <div class="id">KNCU-24001</div>
+                <div class="name">SandarOo</div>
+                <div class="role">Homepage</div>
+            </p>
+        </div>
+
+        <div class="Meldisay">
+            <img src="meldi.jpg" alt="logo" class="logo">
+            <p class="text-below">
+                <div class="id">KNCU-24010</div>
+                <div class="name">MeldiSay</div>
+                <div class="role">AboutUs</div>
+            </p>
+        </div>
+    
+    
+        <div class="Victoria">
+           <img src="v.jpg" alt="Logo" class="logo">
+    
+           <p class="text-below">
+           <div class="id">KNCU-24012</div>
+           <div class="name">Victoria</div>
+           <div class="role">AboutUs</div>
+    
+        </p>
+ 
+     </div>
+     
+     <div class="SawThaleSay">
+        <img src="Say.jpg" alt="logo" class="logo">
+        <p class="text-below">
+            <div class="id">KNCU-24003</div>
+            <div class="name">SawThaleSay</div>
+            <div class="role">Education</div>
+        </p>
+     </div>
+
+     <div class="YèHtwe ">
+        <img src="ko.jpg" alt="logo" class="logo">
+        <p class="text-below">
+            <div class="id">KNCU-24007</div>
+            <div class="name">YèHtwe</div>
+            <div class="role">Education</div>
+        </p>
+     </div>
+
+     <div class="WilliamThan">
+        <img src="Than.jpg" alt="logo" class="logo">
+        <p class="text-below">
+            <div class="id">KNCU-24018</div>
+            <div class="name">WilliamThan</div>
+            <div class="role">Education</div>
+        </p>
+     </div>
+
+     <div class="WilliamHtoo">
+        <img src="willi.jpg" alt="logo" class="logo">
+        <p class="text-below">
+            <div class="id">KNCU-24002</div>
+            <div class="name">WilliamHtoo</div>
+            <div class="role">Ethnic</div>
+        </p>
+     </div>
+
+     <div class="PhyoThuraSoe">
+        <img src="Thura.jpg" alt="logo" class="logo">
+        <p class="text-below">
+            <div class="id">KNCU-24008</div>
+            <div class="name">PhyoThuraSoe</div>
+            <div class="role">Ethnic</div>
+        </p>
+     </div>
+
+     <div class="LarRosy">
+        <img src="Lar.png" alt="logo" class="logo">
+        <p class="text-below">
+            <div class="id">KNCU-24017</div>
+            <div class="name">LarRosy</div>
+            <div class="role">Contact</div>
+        </p>
+     </div>
+
+     <div class="AungThuLwin">
+        <img src="Thu.jpg" alt="logo" class="logo">
+        <p class="text-below">
+            <div class="id">KNCU-24014</div>
+            <div class="name">AungThuLwin</div>
+            <div class="role">Contact</div>
+        </p>
+     </div>
+    </selection>
+
+    <footer class="footer-text">
+        <p>&copy; 2024 Kayan National University. All Rights Reserved.</p>
+    </footer>
+    <!-- Bootstrap 5 JS Bundle (includes Popper.js for dropdowns) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+</body>
+</html>

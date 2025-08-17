@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kayan Traditions:</title>
+    <link rel="shortcut icon" href="lahtar.jpg">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+
+    <!-- typewriter and linkခလုပ် Stylesheet -->
+    <style>
+        .back-link {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 10px 20px;
+            border: 1px solid lightblue;
+            width: 25rem;
+            color: lightblue;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+            margin: 20px, 2px;
+        }
+        .back-link:hover {
+            background-color: lightblue;
+            color: #0d0d0d;
+                
+        }
+        .linknextpage{
+            text-align: center;
+            margin-top: 2rem;
+                 
+        }
+        /* Typewriter effect */
+        .typewriter{
+            text-align: center;
+            font-family:'Courier New', Courier, monospace;
+            white-space: nowrap;
+            overflow: hidden;
+            display: inline-block;
+            max-width: 100%;
+            animation: typing 4s steps(30) forwards;
+        }
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }   
+    </style>
+    <!--menubar style-->
+    <style>
+        /* --- CSS Variables for a Smart & Dynamic Theme --- */
+        :root {
+            --bg-color-start: #1B2735; /* Deep space blue */
+            --bg-color-end: #090A0F;   /* Near black */
+            --navbar-bg: rgba(10, 10, 10, 0.6); /* Darker, semi-transparent */
+            --accent-yellow: #FFD700; 
+            --accent-blue: #00BFFF;
+            --accent-red: #E53935;
+            --text-light: rgba(240, 240, 240, 0.9);
+            --text-white: #ffffff;
+            --nav-height: 110px;
+        }
+        
+        /* --- Aurora Glow Effect --- */
+        body::before, body::after {
+            content: '';
+            position: fixed;
+            z-index: -1;
+            filter: blur(100px);
+            opacity: 0.3;
+        }
+        
+        /* Blue Glow */
+        body::before {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--accent-blue), transparent 60%);
+            top: -100px;
+            left: -150px;
+        }
+
+        /* Red Glow */
+        body::after {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--accent-red), transparent 70%);
+            bottom: -50px;
+            right: -100px;
+        }
+
+
+        /* --- Custom Navbar with 3D Perspective --- */
+        .custom-navbar {
+            background-color: var(--navbar-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            min-height: 140px;
+            transition: background-color 0.3s ease-in-out;
+            perspective: 1500px; /* Crucial for 3D transforms on child elements */
+        }
+
+        /* --- Brand / Logo Styling --- */
+        .navbar-brand {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+        }
+        .navbar-brand .highlight-yellow {
+            color: var(--accent-yellow);
+        }
+
+        /* --- 3D Navigation Links Styling --- */
+        .navbar-nav .nav-link {
+            color: var(--text-light);
+            font-weight: 600;
+            position: relative;
+            padding: 0.5rem 1rem;
+            margin: 0 0.25rem;
+            transform-style: preserve-3d; /* Enable 3D space for the element */
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), color 0.3s;
+        }
+
+        /* The 3D hover effect! */
+        .navbar-nav .nav-link:hover {
+            color: var(--accent-blue);
+            transform: translateZ(30px) rotateX(-20deg);
+        }
+        
+        .navbar-nav .nav-link.active {
+            color: var(--accent-yellow);
+        }
+        
+        /* Animated Underline (moves with 3D transform) */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px; /* Position below the link */
+            left: 1rem;
+            right: 1rem;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-yellow));
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            transform: scaleX(1);
+        }
+        
+        /* --- 3D Dropdown Menu Styling --- */
+        .dropdown-menu {
+            background-color: rgba(20, 20, 20, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 0.5rem;
+            padding: 0.5rem 0;
+            margin-top: 1rem !important; /* Force space from navbar */
+            opacity: 0;
+            visibility: hidden;
+            transform: rotateX(-15deg);
+            transform-origin: top;
+            transition: all 0.3s ease-out;
+        }
+        
+        /* Show dropdown on hover */
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: rotateX(0deg);
+        }
+        
+        .dropdown-item {
+            color: var(--text-light);
+            padding: 0.75rem 1.5rem;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .dropdown-item:hover, .dropdown-item:focus {
+            background-image: linear-gradient(90deg, var(--accent-blue), var(--accent-yellow));
+            color: var(--bg-color-end);
+            transform: translateX(5px);
+        }
+        
+        /* --- Mobile Menu Toggler & Responsiveness --- */
+        .navbar-toggler {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 215, 0, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        @media (max-width: 991.98px) {
+            /* On mobile, disable 3D effects for a cleaner feel */
+            .navbar-nav .nav-link:hover {
+                transform: none;
+            }
+            .nav-link::after { display: none; } /* Hide underline on mobile */
+
+            /* Center items in the fullscreen mobile menu */
+            .navbar-collapse {
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            .navbar-nav .nav-item {
+                margin: 1rem 0;
+            }
+            .nav-link { font-size: 1.5rem; }
+            .dropdown-menu {
+                background: transparent;
+                border: none;
+                backdrop-filter: none;
+                text-align: center;
+                opacity: 1; /* Make visible for static display */
+                visibility: visible;
+                transform: none;
+                position: static;
+            }
+            .dropdown-item { font-size: 1.2rem; }
+            .dropdown-item:hover, .dropdown-item:focus {
+                background: none;
+                background-clip: border-box;
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                background-image: linear-gradient(90deg, var(--accent-yellow), var(--accent-blue));
+                transform: none;
+            }
+        }
+
+
+        /* --- Footer Styling --- */
+        .footer {
+            background-color: #000;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem 0;
+            color: var(--text-light);
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+
+    <!--indexstyle-->
+    <style>
+            /* -- Main Body and Font Styling -- */
+        body {
+            background-color: #0d0d0d; /* Near black */
+            color: #e0e0e0;
+            font-family:'Courier New', Courier, monospace;
+            font-weight: 16px;
+            background-image: 
+                linear-gradient(rgba(0, 255, 135, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 135, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* -- Title and Header Styling -- */
+        .main-title {
+            color: goldenrod; /* Bright Green */
+            letter-spacing: 3px;
+            animation: flicker 2s infinite alternate;
+            margin-top: 20px;
+        }
+
+        .subtitle, .footer-text {
+            color: lightblue;
+            letter-spacing: 2px;
+            opacity: 0.8;
+        }
+
+        @keyframes flicker {
+        from { opacity: 0.8; }
+        to { opacity: 1; }
+        }
+
+        /* -- Content Block Styling -- */
+        .data-block {
+            padding: 2rem 1rem;
+            margin-bottom: 3rem !important;
+            border: 1px solid rgba(148,163,184,.15);
+            box-shadow: 0 10px 30px rgba(2,6,23,.5);
+            background: rgba(10, 25, 40, 0.3);
+            border-radius: 18px;
+            backdrop-filter: blur(2px);
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        .data-block:hover {
+            background: rgba(10, 25, 40, 0.5);
+            border-color: #00BFFF;
+        }
+
+        .text-content h3 {
+            color: lightblue;
+            margin-bottom: 1rem;
+        }
+
+        .text-content p {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* A more readable font for paragraphs */
+            line-height: 1.8;
+            color: #c0c0c0;
+            opacity: 0;
+            animation: text-fade-in 1s forwards;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes text-fade-in {
+            to { opacity: 1; }
+        }
+
+        .tradition-image {
+            width: 100%;
+            border: 1px solid;
+            border-radius: 18px;
+            /* Create a gradient border using the requested colors */
+            border-image-slice: 1;
+            border-image-source: linear-gradient(to right, lightblue, #00ff87);
+            box-shadow: 0 0 10px rgba(226, 40, 211, 0.3);
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.6s ease;
+        }
+
+        /* The 3D Hover Effect */
+        .tradition-image.transform-right:hover {
+            transform: rotateY(-15deg) scale(1.05) translateZ(20px);
+            box-shadow: 0 0 5px 5px rgba(221, 218, 133, 0.5);
+        }
+
+        .tradition-image.transform-left:hover {
+            transform: rotateY(15deg) scale(1.05) translateZ(20px);
+            box-shadow: 0 0 5px 5px rgba(208, 208, 93, 0.5);
+        }
+
+
+        /* -- Animation for Page Load -- */
+        .data-block {
+            opacity: 0;
+            transform: translateY(40px);
+            animation: slide-up 0.8s ease-out forwards;
+        }
+
+        /* Stagger the animation for each block */
+        .data-block:nth-child(1) { animation-delay: 0.2s; }
+        .data-block:nth-child(2) { animation-delay: 0.4s; }
+        .data-block:nth-child(3) { animation-delay: 0.6s; }
+        .data-block:nth-child(4) { animation-delay: 0.8s; }
+
+        @keyframes slide-up {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+      
+</head>
+<body>
+    <!-- ================== NAVBAR ================== -->
+    <nav class="navbar navbar-expand-lg fixed-top custom-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="logophoto.png"alt="Kayan Logo" style="height: 50px;">
+                Kayan <span class="highlight-yellow">Region</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="ethnic.html">Ethnic</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="educationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Education
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="educationDropdown">
+                            <li><a class="dropdown-item" href="kncu.html">KNCU</a></li>
+                            <li><a class="dropdown-item" href="knec.html">KNEC</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about us.html">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact us.html">Contact Us</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- ================== END NAVBAR ================== -->
+
+    <!-- Header -->
+    <header class="container text-center py-4" style="margin-top:10rem; color: goldenrod;">
+        <h1 class="typewriter">KAYAN ETHNIC CULTURAL</h1>
+        <p class="subtitle">//ANALYSIS OF TRADITIONAL LIFE //</p>
+    </header>
+
+    <!-- Main Content-->
+    <main class="container">
+        <!-- Photo 1: LAHTA-->
+        <section class="data-block row align-items-center my-5"> 
+            <div class="col-lg-5">
+                <a href="lahta.html" class="photo-container">
+                    <img src="latar1.png" alt="Kayan couple in traditional attire" class="img-fluid tradition-image transform-left">
+                </a>
+            </div>
+            <div class="col-lg-7">
+                <div class="text-content">
+                    <h1 class="main-title text-center nationtypewriter" >KAYAN LAHTA(ကယန်းလထာ)</h1>
+                    <h3>Kayan Love Amidst the Mountains</h3>
+                        Thi is an image that highlights the beauty of the traditional attire and the love of the Kayan Lahta ethnic people.An ethnic couple can be seen, and their eyes express the deep love and understanding they have for each other. The man gently has his arm around the woman's shoulder, and the way they hold hands shows their strong bond.</p>
+                        In the background, the dusk view of a small village nestled between the mountains brings the photo's beauty to life. Their traditional outfits are based on white and red, and are simple yet graceful. Especially, the traditional necklaces worn by the woman and the small red flowers adorning her hair reflect the cultural beauty of Kayan women.</p>
+                        This image proudly celebrates the charming traditions and love of the Kayan Lahta people. Overall, this picture is a beautiful work of art that combines cultural heritage with pure, sincere love.</p>
+                    <h3>တောင်တန်းများကြားက ကယန်းတို့ရဲ့အချစ်</h3>
+                        ကယန်းလထာ တိုင်းရင်းသားလူမျိုးတို့၏ ရိုးရာဝတ်စုံအလှနှင့် ချစ်ခြင်းမေတ္တာကို ပေါ်လွင်စေသော ပုံရိပ်တစ်ခုဖြစ်သည်။ သူတို့၏ မျက်ဝန်းများက တစ်ဦးအပေါ်တစ်ဦးထားရှိသော နက်ရှိုင်းသည့် အချစ်နှင့် နားလည်မှုကို ဖော်ပြနေသည်။ အမျိုးသားက အမျိုးသမီး၏ ပခုံးကို ကြင်နာစွာဖက်ထားပြီး လက်ချင်းယှက်နွယ်ထားပုံက သူတို့၏ ခိုင်မာသော သံယောဇဉ်ကို ပြသနေသည်။</p>
+                        နောက်ခံတွင် တောင်တန်းများကြားရှိ ရွာကလေး၏ ဆည်းဆာချိန်မြင်ကွင်းက ဓာတ်ပုံ၏ အလှကို ပိုမို၍ အသက်ဝင်စေသည်။ သူတို့၏ ရိုးရာဝတ်စုံများသည် အဖြူရောင်နှင့် အနီရောင်ကို အခြေခံထားပြီး ရိုးရှင်းသော်လည်း ကျက်သရေရှိလှသည်။ အထူးသဖြင့် အမျိုးသမီးဝတ်ဆင်ထားသော ရိုးရာလည်ဆွဲများနှင့် ခေါင်းတွင် ပန်ဆင်ထားသော အနီရောင်ပန်းပွင့်လေးများက ကယန်းအမျိုးသမီးတို့၏ ယဉ်ကျေးမှုအလှကို ထင်ဟပ်စေသည်။</p>
+                         ဤပုံသည် ကယန်းလထာတိုင်းရင်းသားတို့၏ ချစ်စရာကောင်းသော ဓလေ့နှင့် အချစ်ကို ဂုဏ်ယူစွာဖော်ကျူးထားခြင်းဖြစ်ကြောင်း သိသာစေသည်။ ရိုးရာယဉ်ကျေးမှုအမွေအနှစ်နှင့် ဖြူစင်သန့်ရှင်းသော မေတ္တာတရားတို့ ပေါင်းစပ်ထားသည့် လှပသော အနုပညာလက်ရာတစ်ခု ဖြစ်သည်။</p>
+                </div>
+            </div>
+            <div class="linknextpage">
+                <a href="lahta.html" class="back-link"> See More About Of LAHTA....</a>
+            </div>
+        </section>
+
+        <!-- Photo 2:  KANGAN-->
+        <section class="data-block row align-items-center my-5">
+             <div class="col-lg-7">
+                <h1 class="main-title text-center nationtypewriter" >KAYAN KANGAN(ကယန်းကငန်)</h1>
+                <div class="text-content">
+                    <h3> Kayan Kangan</h3>
+                    <p style="font-family: 'Courier New', Courier, monospace;">Kayan Kangan The "Kangan" is one of the four subgroups of the Kayan ethnic group.The name "Kangan" means "people who live on the flat land."It is a traditional name that has been used by the Kayan people since ancient times.They are also commonly known as "Yinbaw."The Shan people referred to the Kangan as "Yambaw" because the Kangan traditionally wore silver rings around their necks, which led to the name Yinbaw being popularized.
+                        Kangan people typically wear black clothing, and the women are known for wearing silver rings around their necks.</p>
+                    <h3> ကယန်းကငန်</h3>
+                    <p>ကယန်းကငန်
+                        "ကငန်"ဟာကယန်းမျိုးနွယ်စု လေးနွယ်ထဲက တစ်နွယ်ဖြစ်ပါတယ်။
+                        "ကငန်"ဆိုတဲ့နာမည်ဟာ "မြေပြန့်မှာနေတဲ့လူ"လို့အဓိပ္ပာယ်ရပါတယ်။
+                        ဒါဟာရှေးယခင်ကတည်းက ကယန်းမျိုးနွယ်စုတွေကနေ ခေါ်ဆိုလာကြတဲ့နာမည်ဖြစ်ပါတယ်။
+                        "ယင်းဘော်"လို့လည်းလူသိများပါတယ်။
+                        ကငန် တွေဟာ ငွေကိုလည်ပင်းမှာဆွဲထားခြင်းကြောင့် ရှမ်းတွေဟာ "ယမ်းဘော်" ဟုခေါ်ဆိုခဲ့ကြ​ရာကနေ ယင်းဘော်ဆိုတဲ့နာမည်နာမ ဖြစ်ပေါ်လာတာဖြစ်ပါတယ်။ 
+                        ကငန်တွေဟာ အများအားဖြင့် အမည်းရောင်ကိုဝတ်ဆင်ကြပြီး အမျိုး​သမီးတွေဟာ လည်ပင်းမှာငွေကိုဆွဲထားလေ့ရှိကြပါတယ်။</p>
+                
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <a href="KANGAN.html" class="photo-container">
+                    <img src="https://i.pinimg.com/736x/0a/48/48/0a484840ff31f7ef0868ca2f861e07eb.jpg" alt="A Kayan couple walking together on a path" class="img-fluid tradition-image transform-right">
+                </a>
+            </div>
+            <div class="linknextpage">
+                <a href="KANGAN.html" class="back-link"> See More About Of KANGAN....</a>
+            </div>
+        </section>
+
+        <!-- Photo 3: KADOT -->
+        <section class="data-block row align-items-center my-5">
+            <div class="col-lg-5">
+                <a href="kadot.html" class="photo-container">
+                    <img src="kadot.jpg" alt="A Kayan couple sharing a moment in their village" class="img-fluid tradition-image transform-right">
+                </a>
+            </div>
+            <div class="col-lg-7">
+                <div class="text-content">
+                    <h1 class="main-title text-center nationtypewriter" >KAYAN KADOT(ကယန်းကဒေါ့)</h1>
+                    <h3>Kayankadot</h3>
+                    <p style="font-family: 'Courier New', Courier, monospace;">The Gheko ethnic group, also known as Kayankado, is a subgroup of the highland Karen. They live in the mountainous regions of Yamethin and Taungoo Districts. According 
+                        to the 1983 census, their population was around 9,500. Most Gheko people reside in the towns of Loikaw, Demoso, and Hpruso within Kayah State. Their prominent traditional festivals 
+                        include the hill field burning 
+                        festival, rice planting festival, harvest festival, and the Kadeekhu (first harvest rice eating) festival.</p>
+                    <h3>ကယန်းကဒေါ့</h3>
+                    <p>ဂေခိုလူမျိုး သို့မဟုတ် ကယန်းကဒေါ့ သည် တောင်ပေါ်ကရင်အနွယ်ဝင် ဖြစ်သည်။ ရမည်းသင်းနှင့်တောင်ငူခရိုင် တောင်တန်းများတွင် နေထိုင်ကြသည်။ လူဦးရေ မှာ ၁၉၈၃ ခုနှစ် စာရင်းများအရ ၉၅၀ဝ ဖြစ်သည်။ ဂေခိုလူမျိုးများသည် ကယားပြည်နယ် 
+                        အတွင်းရှိ လွိုင်ကော်၊ ဒီးမောဆို၊ နှင့် ဖားဆောင်းမြို့နယ်များတွင် အများဆုံး နေထိုင်ကြသည်။ ဂေခိုလူမျိုးများ၏ ထင်ရှားသော ပွဲတော်များမှာ တောင်ယာ မီးရှို့ပွဲ၊ စပါးပျိုးကြဲပွဲ၊ 
+                        ကောက်ရိတ်သိမ်းပွဲနှင့် ကယ်ဒီးခူး (ခေါ်) စပါးဦး စားပွဲ တို့ ဖြစ်သည်။</p>
+                </div>
+            </div>
+            <div class="linknextpage">
+                <a href="kadot.html" class="back-link"> See More About Of KADOT....</a>
+            </div>
+        </section>
+
+        <!-- Photo 4: KAKAUNG -->
+        <section class="data-block row align-items-center my-5">
+            <div class="col-lg-7">
+                <div class="text-content">
+                    <h1 class="main-title text-center">KAYAN KAKAUNG(ကယန်းကခေါင်း)</h1>
+                    <h3> A Shared Path// Natural Beauty</h3>
+                    <p style="font-family: 'Courier New', Courier, monospace;">This image symbolizes partnership and the journey of life. Walking hand-in-hand along a rural path, the couple embodies unity and mutual support. The woman carries a traditional woven basket, indicating a connection to the land and the routines of daily sustenance. Their journey is both literal and metaphorical, representing the path forward for their culture.
+                     Set within a vibrant field of white flowers, this portrait highlights the deep harmony between the Kayan people and their natural environment. The soft light of dawn or dusk illuminates a scene of serene beauty. Their traditional clothing complements the landscape, showing how their cultural identity is interwoven with the very land they inhabit.</p>
+                    <h3>ကျေးရွာ၏ သဟဇာတဖြစ်ခြင်း //  အမွေအနှစ် သံစဉ်များ</h3>
+                    <p> ကယန်းကခေါင်း(ခေါ်)ကယန်းလဟွီလူမျိုးတို့၏ နေ့စဉ်ဘဝနှင့် အသိုင်းအဝိုင်းအတွင်းက ရင်းနှီးဆက်သွယ်မှု၏ အနှစ်သာရကို ဖော်ကျူးထားပါသည်။ ရှုပ်ထွေးလှပသော အဆင်အကွက်များဖြင့် တန်ဆာဆင်ထားသည့် သူတို့၏ ရိုးရာဝတ်စုံသည် ကျေးရွာနောက်ခံမြင်ကွင်းတွင် ထင်ရှားပေါ်လွင်နေပါသည်။ ဤမြင်ကွင်းက မျိုးဆက်တစ်ဆက်ပြီးတစ်ဆက် လက်ဆင့်ကမ်းလာခဲ့သည့် ခိုင်မာသော မိသားစုသံယောဇဉ်၊ အတူတကွ မျှဝေခံစားခဲ့ရသည့် အခိုက်အတန့်များနှင့် နက်ရှိုင်းစွာ အမြစ်တွယ်နေသည့် စည်းလုံးညီညွတ်မှုတို့အပေါ် တည်ဆောက်ထားသော ဘဝကို ဖော်ပြနေပါသည်။
+                        ဂီတနှင့် အနုပညာသည် ကယန်းယဉ်ကျေးမှု၏ အသက်သွေးကြောများ ဖြစ်ပါသည်။ ဤပုံတွင် အမျိုးသားက ရိုးရာ ဂီတာနှင့်ဆင်တူသော တူရိယာတစ်မျိုးကို ကိုင်ထားပြီး၊ အမျိုးသမီးကမူ ဝါးဖြင့်ပြုလုပ်ထားသော နှုတ်ခမ်းတပ်တူရိယာ (ကန်း) ကို ကိုင်ဆောင်ထားပါသည်။ ကယန်းလူမျိုးတို့၏ အမှတ်သင်္ကေတဖြစ်သော ကြေးကွင်းလည်တန်ဆာများနှင့် အရောင်အသွေးစုံလင်လှပသည့် ခေါင်းဆောင်းတို့ဖြင့် ပြည့်စုံသော သူမ၏ ထင်ရှားပေါ်လွင်သည့် ရုပ်သွင်သည် ကယန်းလူမျိုးတို့၏ ကိုယ်ပိုင်လက္ခဏာနှင့် အလှအပဆိုင်ရာ အစဉ်အလာကို ဖော်ပြနေသည့် အားကောင်းသော သင်္ကေတတစ်ခု ဖြစ်ပါသည်။ ဤအရာများသည်အလှဆင်ရန်သက်သက်မဟုတ်ဘဲ၊ သူတို့၏ သမိုင်းကို ပြောပြနေသည့် သက်ရှိဇာတ်ကြောင်းတစ်ခုလည်း ဖြစ်ပါသည်။</p>
+
+                
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <a href="kakaung.html" class="photo-container">
+                    <img src="kakaung1.jpg" alt="A Kayan couple walking together on a path" class="img-fluid tradition-image transform-right">
+                </a>
+            </div>
+            <div class="linknextpage">
+                <a href="kakaung.html" class="back-link"> See More About Of KAKAUNG....</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="container text-center py-4">
+        <p class="footer-text">© 2025 - Kayan Region Information // All Right Reserved</p>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle (includes Popper.js for dropdowns) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+</body>
+</html>

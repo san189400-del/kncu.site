@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kayan Region</title>
+   <link rel="shortcut icon" href="https://www.gomyanmartours.com/wp-content/uploads/2018/08/Flying-from-Yangon-to-Loikaw-airport.jpg">
+  <meta name="description" content="Discover the beauty of the Kayan Region — people, culture, and landmarks in eastern Myanmar." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+  <style>
+    :root{
+      --bg: #0f172a;           /* slate-900 */
+      --panel: #0b1223;        /* deep panel */
+      --text: #e5e7eb;         /* zinc-200 */
+      --muted: #cbd5e1;        /* slate-300 */
+      --brand: #fbbf24;        /* amber-400 */
+      --brand-strong:#f59e0b;  /* amber-500 */
+      --accent: #38bdf8;       /* sky-400 */
+      --ring: rgba(56,189,248,.45);
+      --shadow: 0 10px 30px rgba(2,6,23,.5);
+      --radius: 18px;
+      --maxw: 1150px;
+    }
+    /* Reset-ish */
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text); background: radial-gradient(1200px 600px at 10% -10%, #1e293b 0, #0b1223 40%, #0b1120 100%), var(--bg);
+      line-height:1.75;
+    }
+    img{max-width:100% ;max-height: 100%; display:block}
+    a{color:inherit; text-decoration:none}
+
+    /* Layout */
+    .container{max-width:var(--maxw); margin-inline:auto; padding: clamp(16px, 2vw, 28px)}
+    .section 
+    .eyebrow{letter-spacing:.2em; text-transform:uppercase; font-weight:700; color:var(--accent); font: size 20px;}
+    h1,h2{line-height:1.15}
+    h2{font-family: "Playfair Display", Georgia, serif; font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem); margin: 0 0 12px}
+    p{color:var(--muted)}
+
+    /* Hero */
+    .hero{position:relative; isolation:isolate}
+      .hero-media{position:absolute; inset:0; z-index:-1; overflow:hidden; border-bottom-left-radius:var(--radius); border-bottom-right-radius:var(--radius);
+    }
+    .hero-media img{width:100%; height:100%;margin-top: 3.3rem; object-fit:cover; object-position:center 55%; filter: saturate(1.05) contrast(1.05)}
+    .hero-overlay{position:absolute; inset:0; background:linear-gradient(180deg, rgba(2,6,23,.45), rgba(2,6,23,.75) 60%, rgba(2,6,23,1) 100%)}
+    .hero-content{padding-top: clamp(70px, 10vw, 140px); padding-bottom: clamp(80px, 12vw, 160px)}
+    .hero h1{font-family: "Playfair Display", Georgia, serif; font-size: clamp(2rem, 1.3rem + 3.5vw, 4rem); margin:0 0 14px}
+    .hero p{max-width: 58ch}
+    .cta-row{display:flex; gap:14px; margin-top:22px}
+    .btn{display:inline-flex; align-items:center; gap:10px; padding:12px 18px; font-weight:600; border-radius:12px; border:1px solid rgba(148,163,184,.25); transition: transform .12s ease, background .2s ease, box-shadow .2s ease}
+    .btn-primary{background:linear-gradient(180deg, var(--brand) , var(--brand-strong)); color:#1f2937; box-shadow:0 10px 20px rgba(245,158,11,.2)}
+    .btn-primary:hover{background-color: rgb(216, 220, 225, 0.12);color:white;transform: translateY(-2px)}
+    .btn-ghost{color:white;background:rgba(216, 220, 225, 0.12)}
+    .btn-ghost:hover{background-color: var(--brand);color:black;transform: translateY(-2px)}
+
+    /* Panels / cards */
+    .panel{background: linear-gradient(180deg, rgba(30,41,59,.35), rgba(30,41,59,.15)); border:1px solid rgba(148,163,184,.15); border-radius: var(--radius); box-shadow: var(--shadow)}
+
+    /* About */
+    .about-grid{display:grid; gap:24px}
+    @media (min-width: 880px){
+      .about-grid{grid-template-columns: 1.1fr .9fr; align-items:start}
+    }
+    .about-card{padding: clamp(18px, 3vw, 28px)}
+    .about-card h3{margin:10px 0 6px; font-weight:700}
+    .kayan-list{margin:10px 0 0; padding-left: 18px}
+
+    /* Gallery */
+    .gallery-grid{display:grid; gap:14px; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr))}
+    .gallery figure{margin:0; overflow:hidden; border-radius: 14px; border:1px solid rgba(148,163,184,.18); background: #0b1223}
+    .gallery img{width:100%; height: 230px; object-fit:cover; transition:transform .35s ease}
+    .gallery figure:hover img{transform: scale(1.04)}
+    .gallery figcaption{padding:10px 12px; font-size:.9rem; color:var(--muted)}
+
+    /* Attractions */
+    .cards{display:grid; gap:18px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr))}
+    .card{overflow:hidden}
+    .card img{height:180px; object-fit:cover}
+    .card .content{padding:16px 16px 18px}
+
+    /* Map */
+    .map-embed{aspect-ratio: 16/9; width:100%; border:0; border-radius: 14px; filter: saturate(1.05)}
+
+    /* Footer */
+    footer{border-top:1px solid rgba(148,163,184,.15); background: rgba(2,6,23,.6)}
+
+    /* Utilities */
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+    /* Mobile nav */
+    @media (max-width: 760px){
+      .menu-btn{display:grid; place-items:center; width:42px; height:42px; border-radius: 11px; border:1px solid rgba(148,163,184,.25); background: rgba(148,163,184,.07)}
+      .menu-open .nav-links{display:flex; flex-direction:column; gap:8px; position:absolute; top:62px; right:16px; background: #0b1223; border:1px solid rgba(148,163,184,.2); border-radius:14px; padding:8px; box-shadow:var(--shadow)}
+    }
+
+    /* Reduce motion */
+    @media (prefers-reduced-motion: reduce){
+      html{scroll-behavior:auto}
+      .btn, .gallery img{transition:none}
+    }
+
+    /* Back to top */
+    .to-top{position:fixed; right:16px; bottom:16px; transform: translateY(120%); opacity:0; pointer-events:none; transition: transform .25s ease, opacity .25s ease}
+    .to-top.show{transform: translateY(0); opacity:1; pointer-events:auto}
+
+    /*typing effrct */
+    .typewriter {
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 2.5rem;
+      animation: typing 2.5s steps(13, end) forwards, blink-caret .75s step-end infinite;
+      width: 0;
+    }
+
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 33ch; } /* "MEET OUR TEAM" is 13 characters */
+    }
+    @keyframes blink-caret {
+      from, to { border-color: transparent }
+      50% { border-color: #FFD700; }
+    }
+  </style>
+  <!--menu bar style-->
+  <style>
+        /* --- CSS Variables for a Smart & Dynamic Theme --- */
+        :root {
+            --bg-color-start: #1B2735; /* Deep space blue */
+            --bg-color-end: #090A0F;   /* Near black */
+            --navbar-bg: rgba(10, 10, 10, 0.6); /* Darker, semi-transparent */
+            --accent-yellow: #FFD700; 
+            --accent-blue: #00BFFF;
+            --accent-red: #E53935;
+            --text-light: rgba(240, 240, 240, 0.9);
+            --text-white: #ffffff;
+            --nav-height: 75px;
+        }
+
+        /* --- General Body & Dynamic Background --- */
+        body {
+            font-family:'Courier New', Courier, monospace;
+            background-color: var(--bg-color-end);
+            background-image: radial-gradient(ellipse at bottom, var(--bg-color-start) 0%, var(--bg-color-end) 100%);
+            color: var(--text-light);
+            padding-top: var(--nav-height);
+            min-height: 100vh;
+            overflow-x: hidden; /* Hide horizontal scrollbar caused by glows */
+            position: relative; /* Needed for positioning the aurora glows */
+            background-image: 
+                linear-gradient(rgba(0, 255, 135, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 135, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+           
+        
+        /* --- Aurora Glow Effect --- */
+        body::before, body::after {
+            content: '';
+            position: fixed;
+            z-index: -1;
+            filter: blur(100px);
+            opacity: 0.3;
+        }
+        
+        /* Blue Glow */
+        body::before {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--accent-blue), transparent 60%);
+            top: -100px;
+            left: -150px;
+        }
+
+        /* Red Glow */
+        body::after {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--accent-red), transparent 70%);
+            bottom: -50px;
+            right: -100px;
+        }
+
+
+        /* --- Custom Navbar with 3D Perspective --- */
+        .custom-navbar {
+            background-color: var(--navbar-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            min-height: var(--nav-height);
+            transition: background-color 0.3s ease-in-out;
+            perspective: 1500px; /* Crucial for 3D transforms on child elements */
+        }
+
+        /* --- Brand / Logo Styling --- */
+        .navbar-brand {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+        }
+        .navbar-brand .highlight-yellow {
+            color: var(--accent-yellow);
+        }
+
+        /* --- 3D Navigation Links Styling --- */
+        .navbar-nav .nav-link {
+            color: var(--text-light);
+            font-weight: 600;
+            position: relative;
+            padding: 0.5rem 1rem;
+            margin: 0 0.25rem;
+            transform-style: preserve-3d; /* Enable 3D space for the element */
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), color 0.3s;
+        }
+
+        /* The 3D hover effect! */
+        .navbar-nav .nav-link:hover {
+            color: var(--accent-blue);
+            transform: translateZ(30px) rotateX(-20deg);
+        }
+        
+        .navbar-nav .nav-link.active {
+            color: var(--accent-yellow);
+        }
+        
+        /* Animated Underline (moves with 3D transform) */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px; /* Position below the link */
+            left: 1rem;
+            right: 1rem;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-yellow));
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            transform: scaleX(1);
+        }
+        
+        /* --- 3D Dropdown Menu Styling --- */
+        .dropdown-menu {
+            background-color: rgba(20, 20, 20, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 0.5rem;
+            padding: 0.5rem 0;
+            margin-top: 1rem !important; /* Force space from navbar */
+            opacity: 0;
+            visibility: hidden;
+            transform: rotateX(-15deg);
+            transform-origin: top;
+            transition: all 0.3s ease-out;
+        }
+        
+        /* Show dropdown on hover */
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: rotateX(0deg);
+        }
+        
+        .dropdown-item {
+            color: var(--text-light);
+            padding: 0.75rem 1.5rem;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .dropdown-item:hover, .dropdown-item:focus {
+            background-image: linear-gradient(90deg, var(--accent-blue), var(--accent-yellow));
+            color: var(--bg-color-end);
+            transform: translateX(5px);
+        }
+        
+        /* --- Mobile Menu Toggler & Responsiveness --- */
+        .navbar-toggler {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 215, 0, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        @media (max-width: 991.98px) {
+            /* On mobile, disable 3D effects for a cleaner feel */
+            .navbar-nav .nav-link:hover {
+                transform: none;
+            }
+            .nav-link::after { display: none; } /* Hide underline on mobile */
+
+            /* Center items in the fullscreen mobile menu */
+            .navbar-collapse {
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            .navbar-nav .nav-item {
+                margin: 1rem 0;
+            }
+            .nav-link { font-size: 1.5rem; }
+            .dropdown-menu {
+                background: transparent;
+                border: none;
+                backdrop-filter: none;
+                text-align: center;
+                opacity: 1; /* Make visible for static display */
+                visibility: visible;
+                transform: none;
+                position: static;
+            }
+            .dropdown-item { font-size: 1.2rem; }
+            .dropdown-item:hover, .dropdown-item:focus {
+                background: none;
+                background-clip: border-box;
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                background-image: linear-gradient(90deg, var(--accent-yellow), var(--accent-blue));
+                transform: none;
+            }
+        }
+        /* --- Footer Styling --- */
+        .footer {
+            background-color: #000;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem 0;
+            color: var(--text-light);
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        .footer-text {
+            color: lightblue;
+            letter-spacing: 2px;
+            opacity: 0.8;
+            border-top:2px solid rgb(40, 54, 40) ;
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(10, 25, 40, 0.3);
+        }
+  </style>
+</head>
+<body>
+  <a class="sr-only" href="#main">Skip to content</a>
+      <!-- ================== NAVBAR ================== -->
+    <nav class="navbar navbar-expand-lg fixed-top custom-navbar">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+  <img src="logophoto.png" alt="Kayan Logo" style="height: 50px; margin-right:10px;">
+  <span>Kayan <span class="highlight-yellow">Region</span></span>
+</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ethnic.html">Ethnic</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="educationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Education
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="educationDropdown">
+                            <li><a class="dropdown-item" href="kncu.html">KNCU</a></li>
+                            <li><a class="dropdown-item" href="knec.html">KNEC</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about us.html">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact us.html">Contact Us</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- ================== END NAVBAR ================== -->
+
+  <!-- HERO -->
+  <header class="hero" role="banner">
+    <div class="hero-media" aria-hidden="true">
+      <img src="https://www.gomyanmartours.com/wp-content/uploads/2018/08/Flying-from-Yangon-to-Loikaw-airport.jpg" alt="padaung" />
+      <div class="hero-overlay" aria-hidden="true"></div>
+    </div>
+    <div class="container hero-content">
+      <span class="eyebrow" style="font-size: 20px;">Discover</span>
+      <div style="display: flex; justify-content: center;">
+        <h1 class="typewriter" style="color: goldenrod;">Beauty of the Kayan Land & People</h1>
+      </div>
+      <p>From the highland villages to river valleys, explore culture, language, and landmarks of the Kayan (ကယန်း) communities across eastern Myanmar.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#about">Learn more</a>
+        <a class="btn btn-ghost" href="#gallery">View gallery</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ABOUT -->
+    <section id="about" class="section">
+      <div class="container about-grid">
+        <article class="panel about-card" style="padding-bottom: 65px;">
+          <span class="eyebrow">About</span>
+          <h2>About Kayan Region</h2>
+          <p>ကယန်းတိုင်းရင်းသားများက မိမိတို့လူမျိုး၏ မူလအမည်မှန်မှာ "ကန်းယန်"ဖြစ်သည်ဟုဆိုသည်။ "ကန်း" မှာ ပိုင်နက်၊ နယ်မြေ ဖြစ်ပြီး၊ "ယန်"မှာ စွဲစွဲမြဲမြဲရှိခြင်း၊ အတည်တကျရှိခြင်းဟု အဓိပ္ပာယ်ရပါသည်။ ထို့ကြောင့် "ကန်းယန်" ဆိုသည်မှာ နယ်မြေဒေသတစ်ခုအတွင်း အတည်တကျစွဲစွဲမြဲမြဲနေတတ်သည့် လူမျိုးဟု ဆိုလိုသည်။ ကာလအတန်ကြာလာသည်နှင့်အမျှ "ကန်းယန်" မှ "ကယန်း" ဟူ၍ ခေါ်စမှတ်တွင်လာခဲ့ကြသည်။</p>
+          <p>The Kayan people say the original name of their people is <em>Kanyang</em>: <em>kan</em> means territory and <em>yang</em> means to remain or be established. Over time, <em>Kanyang</em> evolved into <strong>Kayan</strong>.</p>
+          <h5>ကယန်းမျိုးနွယ်စုကြီး (၄) မျိုး — Four Major Kayan Tribes</h5>
+          <ul class="kayan-list">
+            <li><strong>ကယန်း (ပဒေါင်) / Kayan (Padaung)</strong> — mountain dwellers; women traditionally wear neck and ankle brass coils.</li>
+            <li><strong>ယင်းဘော် / Yinbaw (Kangan)</strong> — live on plains; distinctive neck ornaments.</li>
+            <li><strong>ကယန်း (ကဒေါ့) / Kayan (Kadot)</strong> — Gekho/Geba lineage; language close to Kayan (Padaung).</li>
+            <li><strong>ဇယိမ် (လထာ) / Zayim (Lahta)</strong> — homes among rocks; unique highland lifestyle.<br></li>
+          </ul>
+        </article>
+        <aside class="panel about-card">
+          <span class="eyebrow">Location</span>
+          <h2>Where is Kayan Region?</h2>
+          <p>Located across eastern Myanmar — Loikaw and Deemawso (Kayah State), Thandaung (Kayin State), Pinlaung and Phekhon (southern Shan State), and the highlands of Lewe and Pyinmana (Mandalay Region). The landscape is mountainous with valleys, forests, and rivers such as Paung Laung, Tuk Ye Khap, Htoo, Kan Kalin, Katun, Nan Cho, and Nan Phe.</p>
+          <p>Other ethnic communities living alongside the Kayan include Gaba (Geba), Karen, Shan, Pa-O, and Bamar. Population estimates exceed 200,000, with low density due to terrain and travel difficulty.</p>
+          <ul>
+              <li>ကယန်းလဟွီ → ဖယ်ခုံမြို့နယ် (တောင်ဘက်)</li>
+              <li>ကယန်းလထာ → ပင်လောင်းမြို့နယ် (မြောက်ဘက်)</li>
+              <li>ကယန်းကငန် → လွိုင်ကော်နှင့် ဒီမော့ဆို မြို့နယ်အတွင်း မြေပြန့်ဒေသ</li>
+              <li>ကယန်းကဒေါ့ → သံတောင်မြို့နယ်၊ ပဲခူးတိုင်း တောင်ငူမြောက်ပိုင်း၊ နေပြည်တော် ပြင်ဦးလွင်အရှေ့ဘက် တောင်ပေါ်ဒေသ</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery" class="section gallery">
+      <div class="container" style="margin-top: none;">
+        <span class="eyebrow" style="font-size: 20px;">Photos</span>
+        <h2>Gallery</h2>
+        <div class="gallery-grid">
+          <figure class="panel">
+            <img loading="lazy" src="https://dvqlxo2m2q99q.cloudfront.net/000_clients/657152/file/657152g2JxCezn.jpg" alt="Traditional Kayan craft"/>
+            <figcaption>Kayan (Padaung)</figcaption>
+          </figure>
+          <figure class="panel">
+            <img loading="lazy" src="2.jpg" alt="Latha"/>
+            <figcaption>Zayim(Lahta)</figcaption>
+          </figure>
+          <figure class="panel">
+            <img loading="lazy" src="https://i.pinimg.com/736x/0a/48/48/0a484840ff31f7ef0868ca2f861e07eb.jpg" alt="Kangan"/>
+            <figcaption>Yinbaw (Kangan)</figcaption>
+          </figure>
+          <figure class="panel">
+            <img loading="lazy" src="22.jpg" alt="Kedo"/>
+            <figcaption>Kayan (Kadot)</figcaption>
+          </figure>
+          <figure class="panel">
+            <img loading="lazy" src="11.jpg" alt="Traditional Kayan craft"/>
+            <figcaption>Lovely kayan girl</figcaption>
+          </figure>
+          <figure class="panel">
+            <img loading="lazy" src="https://thutatravel.com/wp-content/uploads/2018/07/Longneck-Padaung-Kayan_009.jpg" alt="Kayan (Padaung) portrait"/>
+            <figcaption>Kayan traditional instrument</figcaption>
+          </figure>
+          <figure class="panel">
+            <img loading="lazy" src="1.png" alt="Cultural tradition"/>
+            <figcaption>Cultural tradition</figcaption>
+          </figure>
+          <figure class="panel">
+            <img loading="lazy" src="https://www.worldatlas.com/r/w1200/upload/7e/8c/74/shutterstock-1405875800.jpg" alt="Weaving"/>
+            <figcaption>Traditional craft</figcaption>
+          </figure>
+          <figure class="panel">
+            <img loading="lazy" src="https://live.staticflickr.com/770/31378095510_a994290e91_h.jpg" alt="Kayan weaving"/>
+            <figcaption>A local Kayan woman spins a traditional cloth with copper rings around her neck.</figcaption>
+          </figure>
+          <figure class="panel">
+            <img loading="lazy" src="https://www.remotelands.com/travelogues/app/uploads/2014/07/Loikaw-1-1280x640.jpg" alt="Village landscape near Loikaw"/>
+            <figcaption>Padaung</figcaption>
+          </figure>
+          <figure class="panel">
+            <img loading="lazy" src="https://www.kayahstate.gov.mm/sites/default/files/2021-04/panpet1.jpg" alt="Panpet Village"/>
+            <figcaption>Pan Pet village</figcaption>
+          </figure>
+          <figure class="panel">
+            <img loading="lazy" src="https://thutatravel.com/wp-content/uploads/2018/07/Longneck-Padaung-Kayan_006.jpg" alt="long neck padaung"/>
+            <figcaption>A girl with traditional neck rings</figcaption>
+          </figure>
+
+          
+        </div>
+      </div>
+    </section>
+
+    <!-- ATTRACTIONS -->
+    <section id="attractions" class="section">
+      <div class="container">
+        <span class="eyebrow" style="font-size: 20px;">Explore</span>
+        <h2>Landmarks & Tourist Attractions</h2>
+        <div class="cards">
+          <article class="panel card">
+            <img loading="lazy" src="33.jpg" alt="အာဇာနည် ဗိမာန်"/>
+            <div class="content">
+              <h3 style="color: white; font-size: 20px;">ကယန်းအမျိုးသားအာဇာနည်ဗိမာန်</h3>
+              <p class="muted">  
+              It serves as a place of remembrance, historical education, and a symbol of pride for the Kayan people.</p>
+            </div>
+          </article>
+          <article class="panel card">
+            <img loading="lazy" src="https://static.wixstatic.com/media/750715_df081b1f90724e8aa096c5a74512534e~mv2.jpeg/v1/fill/w_1000,h_667,al_c,q_85,usm_0.66_1.00_0.01/750715_df081b1f90724e8aa096c5a74512534e~mv2.jpeg" alt="ရေပြာအိုင်"/>
+            <div class="content">
+              <h3 style="color: white; font-size: 20px;">ရေပြာအိုင်</h3>
+              <p class="muted">Scenic lake views and tranquil surroundings.</p>
+            </div>
+          </article>
+          <article class="panel card">
+            <img loading="lazy" src="paunglaung.jpg" alt="ပေါင်းလောင်းဆည်"/>
+            <div class="content">
+              <h3 style="color: white; font-size: 20px;">ပေါင်းလောင်းဆည်</h3>
+              <p class="muted">Peaceful mountain ranges embracing the calm waters of Paunglaung Dam</p>
+            </div>
+          </article>
+          <article class="panel card">
+            <img loading="lazy" src="Ngway.jpg" alt="ငွေတောင်ဆည်"/>
+            <div class="content">
+              <h3 style="color: white; font-size: 20px;">ငွေတောင်ဆည်</h3>
+              <p class="muted">A sanctuary of silence and reflection.</p>
+            </div>
+          </article>
+          
+          <article class="panel card">
+            <img loading="lazy" src="https://www.kayahstate.gov.mm/sites/default/files/2021-04/htanee1.jpg" alt="ကန်ခုနှစ်ဆင့်"/>
+            <div class="content">
+              <h3 style="color: white; font-size: 20px;">ကန်ခုနှစ်ဆင့်</h3>
+              <p class="muted">Photogenic terraced lakes and cultural sites.</p>
+            </div>
+          </article>
+          <article class="panel card">
+            <img loading="lazy" src="26.jpg" alt="လမ်းကောရေတံခွန်"/>
+            <div class="content">
+              <h3 style="color: white; font-size: 20px;">လမ်းကောရေတံခွန်</h3>
+              <p class="muted">A place to relax and enjoy the scenery.</p>
+            </div>
+          </article>
+          <article class="panel card">
+            <img loading="lazy" src="https://voiceofmyanmarnews.com/wp-content/uploads/2021/01/136653742_126025289352067_8873099311271723393_n.jpg" alt="ဒီမော့ဆို ခူးပရာတောင်"/>
+            <div class="content">
+              <h3 style="color: white; font-size: 20px;">ဒီမောဆို ခူးပရာတောင်</h3>
+              <p class="muted">Hiking trails and panoramic vistas.</p>
+            </div>
+          </article>
+          
+          <article class="panel card">
+            <img loading="lazy" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKupkHRhKMYcUf117Lq4GLWx5B_3imIc4EPg&s" alt="ကွီတမော့"/>
+              <h3 style="color: white; font-size: 20px;">ကွီတမော့(လခုတ်တောင်)</h3>
+              <p class="muted">One of the most famous natural landmarks in the Kayan region. 
+              With its breathtaking views and surrounding greenery, it is a popular spot for visitors seeking both adventure and tranquility.
+            </div>
+          </article>
+
+        </div>
+        
+      </div>
+    </section>
+
+    <!-- MAP -->
+    <section id="map" class="section">
+      <div class="container">
+        <span class="eyebrow" style="font-size: 30px;">Map</span>
+        <h2>See It on the Map</h2>
+        <div class="panel" style="padding: 14px">
+          <iframe class="map-embed" title="Kayan Region map"
+            src="Map.jpg" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+
+    <footer class="footer-text">
+        <p>&copy; 2024 Kayan National University. All Rights Reserved.</p>
+    </footer>
+
+  <!-- Floating Back-to-Top -->
+  <a href="#" class="btn btn-primary to-top" id="toTop" aria-label="Back to top">↑</a>
+  <!-- Bootstrap 5 JS Bundle (includes Popper.js for dropdowns) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+
+</body>
+</html>

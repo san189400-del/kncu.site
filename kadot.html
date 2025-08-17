@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ကယန်းကဒေါ့ရိုးရာဘဝ ပုံရိပ်များ</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!--menu bar style-->
+    <style>
+        /* --- CSS Variables for a Smart & Dynamic Theme --- */
+        :root {
+            --bg-color-start: #1B2735; /* Deep space blue */
+            --bg-color-end: #090A0F;   /* Near black */
+            --navbar-bg: rgba(10, 10, 10, 0.6); /* Darker, semi-transparent */
+            --accent-yellow: #FFD700; 
+            --accent-blue: #00BFFF;
+            --accent-red: #E53935;
+            --text-light: rgba(240, 240, 240, 0.9);
+            --text-white: #ffffff;
+            --nav-height: 75px;
+        }
+
+        /* --- General Body & Dynamic Background --- */
+        body {
+            font-family:'Courier New', Courier, monospace;
+            background-color: var(--bg-color-end);
+            background-image: radial-gradient(ellipse at bottom, var(--bg-color-start) 0%, var(--bg-color-end) 100%);
+            color: var(--text-light);
+            padding-top: var(--nav-height);
+            min-height: 100vh;
+            overflow-x: hidden; /* Hide horizontal scrollbar caused by glows */
+            position: relative; /* Needed for positioning the aurora glows */
+        }
+         /* -- Main Body and Font Styling -- */
+        body {
+            background-color: #0d0d0d; /* Near black */
+            color: #e0e0e0;
+            font-family:'Courier New', Courier, monospace;
+            font-weight: 16px;
+            background-image: 
+                linear-gradient(rgba(0, 255, 135, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 135, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        /* --- Aurora Glow Effect --- */
+        body::before, body::after {
+            content: '';
+            position: fixed;
+            z-index: -1;
+            filter: blur(100px);
+            opacity: 0.3;
+        }
+        
+        /* Blue Glow */
+        body::before {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--accent-blue), transparent 60%);
+            top: -100px;
+            left: -150px;
+        }
+
+        /* Red Glow */
+        body::after {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--accent-red), transparent 70%);
+            bottom: -50px;
+            right: -100px;
+        }
+
+
+        /* --- Custom Navbar with 3D Perspective --- */
+        .custom-navbar {
+            background-color: var(--navbar-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            min-height: var(--nav-height);
+            transition: background-color 0.3s ease-in-out;
+            perspective: 1500px; /* Crucial for 3D transforms on child elements */
+        }
+
+        /* --- Brand / Logo Styling --- */
+        .navbar-brand {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+        }
+        .navbar-brand .highlight-yellow {
+            color: var(--accent-yellow);
+        }
+
+        /* --- 3D Navigation Links Styling --- */
+        .navbar-nav .nav-link {
+            color: var(--text-light);
+            font-weight: 600;
+            position: relative;
+            padding: 0.5rem 1rem;
+            margin: 0 0.25rem;
+            transform-style: preserve-3d; /* Enable 3D space for the element */
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), color 0.3s;
+        }
+
+        /* The 3D hover effect! */
+        .navbar-nav .nav-link:hover {
+            color: var(--accent-blue);
+            transform: translateZ(30px) rotateX(-20deg);
+        }
+        
+        .navbar-nav .nav-link.active {
+            color: var(--accent-yellow);
+        }
+        
+        /* Animated Underline (moves with 3D transform) */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px; /* Position below the link */
+            left: 1rem;
+            right: 1rem;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-yellow));
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            transform: scaleX(1);
+        }
+        
+        /* --- 3D Dropdown Menu Styling --- */
+        .dropdown-menu {
+            background-color: rgba(20, 20, 20, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 0.5rem;
+            padding: 0.5rem 0;
+            margin-top: 1rem !important; /* Force space from navbar */
+            opacity: 0;
+            visibility: hidden;
+            transform: rotateX(-15deg);
+            transform-origin: top;
+            transition: all 0.3s ease-out;
+        }
+        
+        /* Show dropdown on hover */
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: rotateX(0deg);
+        }
+        
+        .dropdown-item {
+            color: var(--text-light);
+            padding: 0.75rem 1.5rem;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .dropdown-item:hover, .dropdown-item:focus {
+            background-image: linear-gradient(90deg, var(--accent-blue), var(--accent-yellow));
+            color: var(--bg-color-end);
+            transform: translateX(5px);
+        }
+        
+        /* --- Mobile Menu Toggler & Responsiveness --- */
+        .navbar-toggler {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 215, 0, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        @media (max-width: 991.98px) {
+            /* On mobile, disable 3D effects for a cleaner feel */
+            .navbar-nav .nav-link:hover {
+                transform: none;
+            }
+            .nav-link::after { display: none; } /* Hide underline on mobile */
+
+            /* Center items in the fullscreen mobile menu */
+            .navbar-collapse {
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            .navbar-nav .nav-item {
+                margin: 1rem 0;
+            }
+            .nav-link { font-size: 1.5rem; }
+            .dropdown-menu {
+                background: transparent;
+                border: none;
+                backdrop-filter: none;
+                text-align: center;
+                opacity: 1; /* Make visible for static display */
+                visibility: visible;
+                transform: none;
+                position: static;
+            }
+            .dropdown-item { font-size: 1.2rem; }
+            .dropdown-item:hover, .dropdown-item:focus {
+                background: none;
+                background-clip: border-box;
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                background-image: linear-gradient(90deg, var(--accent-yellow), var(--accent-blue));
+                transform: none;
+            }
+        }
+
+
+        /* --- Footer Styling --- */
+        .footer {
+            background-color: #000;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem 0;
+            color: var(--text-light);
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+
+    <style>
+    /*-- Add this new style block for responsive <p> and containers --*/
+        p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 1.2rem;
+            word-break: break-word;
+            max-width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            p {
+                font-size: 1rem;
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+                text-align: left;
+            }
+            .container,
+            .container-fluid,
+            .detail-page,
+            [class^="col-"] {
+                padding-left: 0.5rem !important;
+                padding-right: 0.5rem !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                width: 100% !important;
+                max-width: 100vw !important;
+                box-sizing: border-box;
+            }
+            div[style*="width: 70rem"] {
+                width: 100% !important;
+                margin-left: 0 !important;
+            }
+        }
+
+        @font-face {
+            font-family: 'Myanmar Unicode';
+            src: local('Myanmar Text'), local('Pyidaungsu'), local('Padauk');
+        }
+
+        .container-fluid {
+            padding-top: 50px;
+            padding-bottom: 50px;
+        }
+
+        .image-container {
+            padding: 2rem 1rem;
+            margin-bottom: 3rem !important;
+            border: 2px solid rgba(148,163,184,.15);
+            box-shadow: 0 10px 30px rgba(2,6,23,.5);
+            background: rgba(10, 25, 40, 0.3);
+            border-radius: 18px;
+            backdrop-filter: blur(2px);
+            transition: background 0.3s, border-color 0.3s;
+            color: #e0e0e0; 
+            margin-left: 5%;
+            margin-right: 5%;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .image-container:hover img {
+            transform: scale(1.1) rotateY(15deg);
+        }
+
+        .image-container:hover {
+            border-color: goldenrod;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+        }
+
+        .image-text {
+            padding: 15px;
+            text-align: center;
+            background-color: rgba(7, 46, 7, 0.1);
+            border-top: 1.5px solid #00ff00;
+            border-radius: 0 0 12px 12px;
+            min-height: 150px; /* To ensure consistent height */
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 50px;
+            color: goldenrod;
+            font-size: 3rem;
+                
+        }
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: inherit;
+            text-decoration: none;
+        }
+        .highlighted-desc {
+            padding: 2rem 1rem;
+            margin-bottom: 3rem !important;
+            border: 1px solid rgba(148,163,184,.15);
+            box-shadow: 0 10px 30px rgba(2,6,23,.5);
+            background: rgba(10, 25, 40, 0.3);
+            border-radius: 18px;
+            backdrop-filter: blur(2px);
+            transition: background 0.3s, border-color 0.3s;
+            color: #e0e0e0; 
+        } 
+
+    </style>
+
+    <!-- linkခလုပ် Stylesheet -->
+    <style>
+        .detail-page {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 10px 20px;
+            border: 1px solid lightblue;
+            width: 25rem;
+            color: lightblue;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+            margin: 20px, 2px;
+        }
+        .back-link:hover {
+            background-color: lightblue;
+            color: #0d0d0d;
+                
+        }
+        .linknextpage{
+            text-align: center;
+            margin-top: 2rem;
+                 
+        }
+        .footer-text {
+            color: lightblue;
+            letter-spacing: 2px;
+            opacity: 0.8;
+            border-top:2px solid rgb(40, 54, 40) ;
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(10, 25, 40, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- ================== NAVBAR ================== -->
+    <nav class="navbar navbar-expand-lg fixed-top custom-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="logophoto.png"alt="Kayan Logo" style="height: 50px;">
+                Kayan <span class="highlight-yellow">Region</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="ethnic.html">Ethnic</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="educationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Education
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="educationDropdown">
+                            <li><a class="dropdown-item" href="kncu.html">KNCU</a></li>
+                            <li><a class="dropdown-item" href="knec.html">KNEC</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about us.html">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact us.html">Contact Us</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- ================== END NAVBAR ================== -->
+
+    <div style="display: flex; justify-content: center;margin-top: 30px;">
+        <h1  style="color: goldenrod;">ကယန်းကဒေါ့ရိုးရာဘဝ ပုံရိပ်များ</h1>
+    </div>
+    <div class="container-fluid">
+
+        <div class="row">
+        <div class="row">
+            <!-- Image 1 -->
+            <div class="col-md-4">
+                <a href="#">
+                    <div class="image-container">
+                        <img src="kadot1.jpg" alt="ဓာတ်ပုံ">
+                        <div class="image-text">
+                            <p>တောင်ပေါ်ရွာက လုံမေပျို၊ ရိုးရာအလှနဲ့ တင့်တယ်သူ…
+                                စည်းလုံးခြင်းရဲ့ သင်္ကေတ၊ အပြုံးကိုယ်စီနဲ့ ယဉ်ကျေးမှု…
+                                မတို့ရဲ့မြေမှာ အစဉ်ထာဝရ၊ ဓလေ့အမွေကို ထိန်းသိမ်းကြမယ်။</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- Image 2 -->
+            <div class="col-md-4">
+                <a href="#">
+                    <div class="image-container">
+                        <img src="kadot2.jpg" alt="ဓာတ်ပုံ">
+                        <div class="image-text">
+                            <p>ရိုးရာဝတ်စုံလေးနဲ့ မောင်နဲ့မယ်၊ ကြည်နူးစရာ ချစ်စဖွယ်…
+                                ဖြူစင်ရိုးသားတဲ့ အပြုံးလေးတွေက၊ အေးချမ်းတဲ့ဘဝကို ဖိတ်ခေါ်တယ်။
+                                အတူတကွရှိနေသမျှ၊ လောကကြီးက သာယာပါတယ်။</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- Image 3 -->
+            <div class="col-md-4">
+                <a href="#">
+                    <div class="image-container">
+                        <img src="kadot3.jpg" alt="ဓာတ်ပုံ">
+                        <div class="image-text">
+                            <p>ကန္တာရဝတီ တို့ရဲ့မြေ၊ တောင်တန်းရေမြေ သာယာတယ်…
+                                ညီညာစုစည်း တို့အင်အား၊ ကြယ်ဖြူလွှင့်ထူ အလံတော်အောက်ဝယ်…
+                            မျိုးဆက်သစ်တို့ လက်တွဲလို့၊ သမိုင်းသစ်ကို ရေးထိုးမယ်။</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+<div class="highlighted-desc">
+    <h1>ကယန်းကဒေါ့</h1>
+    <div class="highlighted-desc">
+        <h2>ကယန်းကခေါ့ (ခေါ်) ဂေခို အကြောင်း</h2>
+            <P>ကယန်းတိုင်းရင်းများ၏ မူလအမည်မှာ "ကန်ယန်" ဖြစ်ပါသည်။ 
+                <ul>
+                    <li>ကန်း = ပိုင်နက်၊ နယ်မြေ</li>
+                    <li>ယန် = စွဲစွဲမြဲမြဲ ရှိခြင်း၊ အတည်တကျ ရှိခြင်း</li>
+                </ul>
+        ထို့ကြောင့် ကန်းယန် ကို "နယ်မြေတစ်ခုထဲတွင် စွဲစွဲမြဲမြဲ အတည်တကျနေထိုင်သော လူမျိုး" ဟု အဓိပ္ပာယ်ရသည်။
+        နောက်ပိုင်းနှစ်များ ကြာလာခြင်းကြောင့် "ကန်းယန်" မှ "ကယန်း" ဟူ၍ အသံပြောင်းလဲလာသည်။</P>
+        ကယန်းကဒေါ့" အဓိပ္ပာယ်မှာ — လုံခြုံသောနေရာတစ်ခုတွင် နေထိုင်သော မျိုးနွယ်စု ဖြစ်သည်။
+        ထိုသူများသည် တောင်ပေါ်ဒေသများတွင် အများဆုံး နေထိုင်သောကြောင့် "တောင်ပေါ်ကယန်း" ဟူ၍လည်း ခေါ်သည်။</p>
+        
+    </div>
+
+ 
+    <div class="highlighted-desc">
+    <h2>ဝတ်စားဆင်ယဉ်ပုံ</h2>
+    <ul>
+        <li>အမျိုးသား → အဖြူရောင်ပေါ် အနီစင်းကြား အင်ကျီ၊ ဘောင်းဘီရှည် အမဲရောင် (အနီစင်းကြောင်းပါ)၊ ခေါင်းပေါင်း အဖြူ</li>
+        <li>အမျိုးသမီး → အပေါ်အင်ကျီ အဖြူ၊ အောက်အနီ (သို့) ယောက်ကျားအင်ကျီပုံစံတူ၊ လုံချည် အမဲရောင်ပေါ် အနီစင်းကွက်၊ ခေါင်းပေါ်တွင် အနီစင်းပါ အဖြူရောင် အရှည်ဝတ်</li>
+        
+    </ul>
+    </div>
+    <div class="highlighted-desc">
+    <h2>ယဉ်ကျေးမှုနှင့် နေ့စဉ်အလေ့အထများ</h2>
+    <ul>
+        <li>သားသမီးများ၏မွေးချင်းအလိုက် အကြီးအငယ်သတ်မှတ်၍ အမည်ပေးခြင်း</li>
+        <li>ဘာသာရေး → အများစု ခရစ်ယာန်၊ အချို့ ဗုဒ္ဓဘာသာနှင့် နတ်ကိုးကွယ်</li>
+        <li>ထင်ရှားသော အလေ့အထ → ကြက်ရိုးထိုးဗေဒင်၊ သက်ကယ်ချင်းဗေဒင်၊ ဝက်သီးခြေဗေဒင်</li>
+        <li>အလုပ်အကိုင် → တောင်ယာ၊ လယ်ယာ၊ လက်ဖက်၊ ဂျုံ၊ ပဲသီးနှံစုံ စိုက်ပျိုး</li>
+    </ul>
+    </div>
+    <div class="highlighted-desc">
+    <h2>စာပေအကြောင်း</h2>
+    <ul>
+        <li>၁၈၉၇ ခုနှစ်တွင် Roman Catholic ဘုန်းကြီး Fr. Paolo Manna သည် မောင်ဘလောက်ရွာတွင် ရောက်ရှိကာ "ကယန်းဂေချူ" ဘာသာစကားဖြင့် စာပေ သင်ကြားပေးခဲ့သည်။</li>
+        <li>၂၀၀၀ ခုနှစ် ဧပြီလတွင် ကယန်းဘုံစာပေအဖြစ် သတ်မှတ်ခဲ့သည်။</li>
+        
+    </ul>
+    </div>
+    <div class="highlighted-desc">
+    <h2>ထူးခြားချက်များ</h2>
+    <ul>
+        <li>ကိုယ်ပိုင်ယဉ်ကျေးမှု၊ ဘာသာစကား၊ စာပေများ ထိန်းသိမ်းနိုင်မှု</li>
+        <li>တံခွန်တိုင်အက၊ အဖွဲ့လိုက်ပလွေမှုတ်အက၊ နေ့စဉ်ရိုးရာဓလေ့များ ဆက်လက်ထိန်းသိမ်းခြင်း</li>
+        <li>တချို့နေရာများတွင် ဝတ်စုံအလားတူသဖြင့် "တောင်ပေါ်ကရင်" ဟူ၍ ခေါ်ကြသည်</li>
+    </ul>
+    </div>
+        <div class="container detail-page">
+            <a href="ethnic.html" class="back-link"> RETURN TO ARCHIVE</a>
+        </div>
+</div>
+<footer class="footer-text">
+    <p>&copy; 2024 Kayan National University. All Rights Reserved.</p>
+</footer>
+    <!-- Bootstrap 5 JS Bundle (includes Popper.js for dropdowns) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+</body>
+</html>

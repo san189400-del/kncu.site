@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kayan Lahta</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+  
+    <style>
+        .detail-page {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 10px 20px;
+            border: 1px solid lightblue;
+            color: lightblue;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .back-link:hover {
+            background-color: lightblue;
+            color: #0d0d0d;
+        }
+        /* --- CSS Variables for Easy Theme Management --- */
+  
+
+        /* --- General Body & Reset --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+           
+            /* Add padding to the top to prevent content from hiding behind the fixed navbar */
+            padding-top: var(--nav-height);
+            background-color: #0d0d0d; /* Near black */
+            color: #e0e0e0;
+            font-family:'Courier New', Courier, monospace;
+            font-weight: 20px;
+            background-image: 
+                linear-gradient(rgba(0, 255, 135, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 135, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+
+        /* --- Navbar Container & Layout --- */
+        .custom-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--nav-height);
+            z-index: 1000;
+            background-color: var(--bg-dark-transparent);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            perspective: 1000px; /* For 3D effects on children */
+        }
+        
+        .custom-navbar.scrolled {
+            height: 70px;
+            background-color: var(--bg-dark-solid);
+            box-shadow: 0 5px 20px var(--shadow-color);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* --- Brand / Logo --- */
+        .nav-brand {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-white);
+            text-decoration: none;
+            letter-spacing: 1px;
+            transition: transform 0.3s ease;
+        }
+        .nav-brand:hover {
+            transform: scale(1.05);
+        }
+        .nav-brand .highlight {
+            color: var(--accent-yellow);
+        }
+
+        /* --- Navigation Menu (Desktop) --- */
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            list-style: none;
+        }
+        
+        .nav-item {
+            position: relative;
+            margin-left: 10px;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 10px 15px;
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 400;
+            position: relative;
+            transition: all 0.4s ease;
+            transform-style: preserve-3d; /* Enable 3D transform */
+        }
+
+        .nav-link:hover {
+            color: var(--text-white);
+            transform: translateY(-4px) rotateX(10deg);
+        }
+
+        /* Underline Animation */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 15px;
+            right: 15px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-yellow));
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .nav-link:hover::after, .nav-link.active::after {
+            transform: scaleX(1);
+        }
+        
+        /* --- Dropdown Menu Styling --- */
+        .dropdown-menu {
+            position: absolute;
+            top: 120%; /* Start slightly lower for animation */
+            left: 50%;
+            transform: translateX(-50%) rotateX(-15deg);
+            transform-origin: top center;
+            width: 200px;
+            background: var(--bg-dark-solid);
+            list-style: none;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            padding: 10px 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, top 0.3s ease, transform 0.3s ease, visibility 0.3s;
+        }
+        
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            top: 100%;
+            transform: translateX(-50%) rotateX(0deg);
+        }
+        
+        .dropdown-item a {
+            display: block;
+            padding: 12px 20px;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: background 0.3s ease, color 0.3s ease, padding-left 0.3s ease;
+        }
+        
+        .dropdown-item a:hover {
+            background: var(--accent-yellow);
+            color: var(--bg-dark-solid);
+            padding-left: 25px; /* Nice slide-in effect */
+        }
+
+        /* --- Mobile Navigation & Hamburger Menu --- */
+        /* The invisible checkbox that powers the mobile menu */
+        .nav-toggle-checkbox {
+            display: none;
+        }
+
+        /* The hamburger icon itself */
+        .nav-toggle-label {
+            display: none; /* Hidden on desktop */
+            width: 30px;
+            height: 22px;
+            position: relative;
+            cursor: pointer;
+            z-index: 1001; /* Above menu */
+        }
+
+        .nav-toggle-label span {
+            display: block;
+            position: absolute;
+            height: 3px;
+            width: 100%;
+            background: var(--accent-yellow);
+            border-radius: 3px;
+            left: 0;
+            transition: all 0.35s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        .nav-toggle-label span:nth-child(1) { top: 0; }
+        .nav-toggle-label span:nth-child(2) { top: 10px; }
+        .nav-toggle-label span:nth-child(3) { top: 20px; }
+        
+        /* Hamburger to "X" animation when checkbox is checked */
+        .nav-toggle-checkbox:checked + .nav-toggle-label span:nth-child(1) {
+            transform: rotate(45deg);
+            top: 10px;
+            background: var(--accent-blue);
+        }
+        .nav-toggle-checkbox:checked + .nav-toggle-label span:nth-child(2) {
+            width: 0%;
+            opacity: 0;
+        }
+        .nav-toggle-checkbox:checked + .nav-toggle-label span:nth-child(3) {
+            transform: rotate(-45deg);
+            top: 10px;
+            background: var(--accent-blue);
+        }
+
+        /* --- Responsive Media Query --- */
+        @media (max-width: 992px) {
+            .nav-toggle-label {
+                display: block; /* Show hamburger on mobile */
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh; /* Full screen */
+                background: var(--bg-dark-solid);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transform: translateX(-100%); /* Start off-screen */
+                transition: transform 0.5s cubic-bezier(0.77, 0, 0.18, 1);
+            }
+
+            /* Slide in the menu when checkbox is checked */
+            .nav-toggle-checkbox:checked ~ .nav-menu {
+                transform: translateX(0);
+            }
+            
+            .nav-item {
+                margin: 20px 0;
+            }
+
+            .nav-link {
+                font-size: 1.5rem;
+            }
+
+            /* Mobile Dropdowns */
+            .dropdown-menu {
+                position: static; /* No longer absolute */
+                display: none; /* Hidden by default */
+                background: transparent;
+                box-shadow: none;
+                width: auto;
+                text-align: center;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                padding-top: 10px;
+            }
+            
+            .dropdown:hover .dropdown-menu {
+                display: block; /* Show on hover */
+            }
+
+            .dropdown-item a {
+                color: var(--accent-blue);
+                font-size: 1.1rem;
+                font-weight: 300;
+            }
+            .dropdown-item a:hover {
+                background: none;
+                color: var(--accent-yellow);
+                padding-left: 20px;
+            }
+        }
+        
+        /* Example Content to demonstrate scroll */
+        .content h1 {
+            margin-top: 5rem;
+            text-align: center;
+            color: #1c3d3d;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+
+    <style>
+        .highlighted-desc {
+            padding: 2rem 1rem;
+            margin-bottom: 3rem !important;
+            border: 2px solid rgba(148,163,184,.15);
+            box-shadow: 0 10px 30px rgba(2,6,23,.5);
+            background: rgba(10, 25, 40, 0.3);
+            border-radius: 18px;
+            backdrop-filter: blur(2px);
+            transition: background 0.3s, border-color 0.3s;
+            color: #e0e0e0; 
+            margin-left: 5%;
+            margin-right: 5%;
+        }
+        @font-face {
+            font-family: 'Myanmar Unicode';
+            src: local('Myanmar Text'), local('Pyidaungsu'), local('Padauk');
+        }
+
+        .container-fluid {
+            padding-top: 50px;
+            padding-bottom: 50px;
+        }
+
+        .image-container {
+            padding: 2rem 1rem;
+            margin-bottom: 3rem !important;
+            border: 2px solid rgba(148,163,184,.15);
+            box-shadow: 0 10px 30px rgba(2,6,23,.5);
+            background: rgba(10, 25, 40, 0.3);
+            border-radius: 18px;
+            backdrop-filter: blur(2px);
+            transition: background 0.3s, border-color 0.3s;
+            color: #e0e0e0; 
+            margin-left: 5%;
+            margin-right: 5%;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .image-container:hover img {
+            transform: scale(1.1) rotateY(15deg);
+        }
+
+        .image-container:hover {
+            border-color: goldenrod;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+        }
+
+        .image-text {
+            padding: 15px;
+            text-align: center;
+            background-color: rgba(7, 46, 7, 0.1);
+            border-top: 1.5px solid #00ff00;
+            border-radius: 0 0 12px 12px;
+            min-height: 150px; /* To ensure consistent height */
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 50px;
+            color: goldenrod;
+            font-size: 3rem;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: inherit;
+            text-decoration: none;
+        }
+    </style>
+
+    <!--menubar style-->
+    <style>
+        /* --- CSS Variables for a Smart & Dynamic Theme --- */
+        :root {
+            --bg-color-start: #1B2735; /* Deep space blue */
+            --bg-color-end: #090A0F;   /* Near black */
+            --navbar-bg: rgba(10, 10, 10, 0.6); /* Darker, semi-transparent */
+            --accent-yellow: #FFD700; 
+            --accent-blue: #00BFFF;
+            --accent-red: #E53935;
+            --text-light: rgba(240, 240, 240, 0.9);
+            --text-white: #ffffff;
+            --nav-height: 75px;
+        }
+
+        /* --- Aurora Glow Effect --- */
+        body::before, body::after {
+            content: '';
+            position: fixed;
+            z-index: -1;
+            filter: blur(100px);
+            opacity: 0.3;
+        }
+        
+        /* Blue Glow */
+        body::before {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--accent-blue), transparent 60%);
+            top: -100px;
+            left: -150px;
+        }
+
+        /* Red Glow */
+        body::after {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--accent-red), transparent 70%);
+            bottom: -50px;
+            right: -100px;
+        }
+
+        /* --- Custom Navbar with 3D Perspective --- */
+        .custom-navbar {
+            background-color: var(--navbar-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            min-height: var(--nav-height);
+            transition: background-color 0.3s ease-in-out;
+            perspective: 1500px; /* Crucial for 3D transforms on child elements */
+        }
+
+        /* --- Brand / Logo Styling --- */
+        .navbar-brand {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+        }
+        .navbar-brand .highlight-yellow {
+            color: var(--accent-yellow);
+        }
+
+        /* --- 3D Navigation Links Styling --- */
+        .navbar-nav .nav-link {
+            color: var(--text-light);
+            font-weight: 600;
+            position: relative;
+            padding: 0.5rem 1rem;
+            margin: 0 0.25rem;
+            transform-style: preserve-3d; /* Enable 3D space for the element */
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), color 0.3s;
+        }
+
+        /* The 3D hover effect! */
+        .navbar-nav .nav-link:hover {
+            color: var(--accent-blue);
+            transform: translateZ(30px) rotateX(-20deg);
+        }
+        
+        .navbar-nav .nav-link.active {
+            color: var(--accent-yellow);
+        }
+        
+        /* Animated Underline (moves with 3D transform) */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px; /* Position below the link */
+            left: 1rem;
+            right: 1rem;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-yellow));
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            transform: scaleX(1);
+        }
+        
+        /* --- 3D Dropdown Menu Styling --- */
+        .dropdown-menu {
+            background-color: rgba(20, 20, 20, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 0.5rem;
+            padding: 0.5rem 0;
+            margin-top: 1rem !important; /* Force space from navbar */
+            opacity: 0;
+            visibility: hidden;
+            transform: rotateX(-15deg);
+            transform-origin: top;
+            transition: all 0.3s ease-out;
+        }
+        
+        /* Show dropdown on hover */
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: rotateX(0deg);
+        }
+        
+        .dropdown-item {
+            color: var(--text-light);
+            padding: 0.75rem 1.5rem;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .dropdown-item:hover, .dropdown-item:focus {
+            background-image: linear-gradient(90deg, var(--accent-blue), var(--accent-yellow));
+            color: var(--bg-color-end);
+            transform: translateX(5px);
+        }
+        
+        /* --- Mobile Menu Toggler & Responsiveness --- */
+        .navbar-toggler {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 215, 0, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        @media (max-width: 991.98px) {
+            /* On mobile, disable 3D effects for a cleaner feel */
+            .navbar-nav .nav-link:hover {
+                transform: none;
+            }
+            .nav-link::after { display: none; } /* Hide underline on mobile */
+
+            /* Center items in the fullscreen mobile menu */
+            .navbar-collapse {
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            .navbar-nav .nav-item {
+                margin: 1rem 0;
+            }
+            .nav-link { font-size: 1.5rem; }
+            .dropdown-menu {
+                background: transparent;
+                border: none;
+                backdrop-filter: none;
+                text-align: center;
+                opacity: 1; /* Make visible for static display */
+                visibility: visible;
+                transform: none;
+                position: static;
+            }
+            .dropdown-item { font-size: 1.2rem; }
+            .dropdown-item:hover, .dropdown-item:focus {
+                background: none;
+                background-clip: border-box;
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                background-image: linear-gradient(90deg, var(--accent-yellow), var(--accent-blue));
+                transform: none;
+            }
+        }
+
+
+        /* --- Footer Styling --- */
+        .footer {
+            background-color: #000;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem 0;
+            color: var(--text-light);
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+    /*-- Add this new style block for responsive <p> and containers --*/
+        p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 1.2rem;
+            word-break: break-word;
+            max-width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            p {
+                font-size: 1rem;
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+                text-align: left;
+            }
+            .container,
+            .container-fluid,
+            .detail-page,
+            [class^="col-"] {
+                padding-left: 0.5rem !important;
+                padding-right: 0.5rem !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                width: 100% !important;
+                max-width: 100vw !important;
+                box-sizing: border-box;
+            }
+            div[style*="width: 70rem"] {
+                width: 100% !important;
+                margin-left: 0 !important;
+            }
+        }
+        .footer-text {
+            color: lightblue;
+            letter-spacing: 2px;
+            opacity: 0.8;
+            border-top:2px solid rgb(40, 54, 40) ;
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(10, 25, 40, 0.3);
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- ================== NAVBAR ================== -->
+    <nav class="navbar navbar-expand-lg fixed-top custom-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="logophoto.png"alt="Kayan Logo" style="height: 50px;">
+                Kayan <span class="highlight-yellow">Region</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="ethnic.html">Ethnic</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="educationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Education
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="educationDropdown">
+                            <li><a class="dropdown-item" href="kncu.html">KNCU</a></li>
+                            <li><a class="dropdown-item" href="knec.html">KNEC</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about us.html">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact us.html">Contact Us</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- ================== END NAVBAR ================== -->
+
+    <div class="container-fluid">
+        <h1>ကယန်းကခေါင်း၏ ရိုးရာဘဝ ပုံရိပ်များ</h1>
+        <div class="row">
+        <div class="row">
+            <!-- Image 1 -->
+            <div class="col-md-4">
+                <a href="#">
+                    <div class="image-container">
+                        <img src="kakaung2.png" alt="ရိုးရာဓလေ့">
+                        <div class="image-text">
+                            <p> အတူတူလျှောက်မယ့်ခရီး</p>
+                                မြေနီလမ်းကလေးပေါ်၊ ခြယ်မှုန်းထားတဲ့ ကောင်းကင်ပြာအောက်၊
+                                တို့နှစ်ယောက်ရဲ့ ခရီးက၊ သစ်လွင်တဲ့ ပုံပြင်တစ်ပုဒ်လို စတင်ခဲ့။
+                                ကိုင်ထားတဲ့ လက်တစ်ဖက်၊ မျှော်လင့်ချက်တွေနဲ့ စကားပြောတဲ့ မျက်ဝန်း၊
+                                တို့နှစ်ယောက် အတူတူလျှောက်လှမ်း၊ မျှော်လင့်ခြင်းရဲ့ ကကြိုးတွေနဲ့။
+                                ညီမလည်တိုင်က ကြေးခွေက၊ မနေ့ကရဲ့ သီချင်းတစ်ပုဒ်၊
+                                တို့ဝတ်တဲ့ ဝတ်စုံကတော့၊ အနာဂတ်ရဲ့ လမ်းကို လင်းလက်စေ။
+                                နှလုံးသားနှစ်ခု တစ်ခုတည်းဖြစ်၊ ညင်သာစွာ ဖူးပွင့်တဲ့ အပြုံးများနဲ့၊
+                                ဘဝတစ်ခုကို တည်ဆောက်ရင်း၊ အမှောင်ညို့ကို မောင်းထုတ်ကြမယ်။</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- Image 2 -->
+            <div class="col-md-4">
+                <a href="#">
+                    <div class="image-container">
+                        <img src="kakaung.jpg" alt="ရိုးရာလက်မှုပညာ">
+                        <div class="image-text">
+                            <p>ရွှေရောင်ဆန်ခါ</p>
+                                နေရောင်ခြည်မျှင်တန်းကြား၊ တောနတ်တို့ သက်ပြင်းချရာ၊
+                                အဖွားရဲ့ လက်တစ်စုံက၊ မျိုးဆက်အတွက် ပုံပြင်တွေပြောနေတယ်။
+                                ကြေးခွေရစ်လည်တိုင်ဟာ၊ သက်တမ်းရဲ့ တည်ငြိမ်မှု ပြယုဂ်၊
+                                ဘဝရဲ့ စပါးကြမ်းကို၊ သမိုင်းစာမျက်နှာပေါ်မှာ စစ်ထုတ်နေသလို။
+                                စည်းချက်ကျ လွှင့်တင်လိုက်တိုင်း၊ ဖွဲကြမ်းတို့ လေထဲလွင့်ပါ၊
+                                ရွှေရောင်အနှစ်သာရ၊ ဆုတောင်းတို့ရဲ့ အဖြေစကား ကျန်ရစ်။
+                                ကြွေကျလာတဲ့ ဆန်စေ့တိုင်းဟာ၊ သူမဖြတ်သန်းခဲ့ဖူးတဲ့ နေ့ရက်များ၊
+                                ညင်သာတဲ့ လှုပ်ရှားမှုထဲမှာ၊ တိတ်ဆိတ်တဲ့ သန်မာခြင်းကို ပြနေတယ်။</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!-- Image 3 -->
+            <div class="col-md-4">
+                <a href="#">
+                    <div class="image-container">
+                        <img src="kakaung3.jpg" alt="လူငယ်စုံတွဲ၏ ကြည်နူးဖွယ်အခိုက်အတန့်">
+                        <div class="image-text">
+                            <p>အမွေအနှစ်သံစဉ်</p>
+                                ကိုင်ထားတဲ့ တျာက၊ ရှေးဘိုးဘွားတို့ရဲ့ ဇာတ်လမ်းကို သီကျူး၊
+                                ညီမလက်ထဲမှာတော့၊ ရှေးမိခင်တို့ရဲ့ လက်မှုအမွေ။
+                                ကျောချင်းကပ်လို့၊ တို့ရှေ့က ကမ္ဘာကြီးကို ရင်ဆိုင်၊
+                                ဘိုးဘွားတို့ မှာကြားခဲ့တဲ့၊ တိုးတိတ်တဲ့ စကားသံတွေကြားမှာ။
+                                တေးသံက တောင်တန်းနဲ့ နေရောင်ခြည်အကြောင်း ရက်ဖွဲ့၊
+                                ညီမလက်ကတော့၊ တည်မြဲနေဆဲ အမွေအနှစ်ကို ဆုပ်ကိုင်။
+                                အတူတကွ သန်မာရင်း၊ ထိန်းသိမ်းရမယ့် အမွေကို သယ်ဆောင်၊
+                                ယဉ်ကျေးမှု၊ တေးသီချင်းနဲ့ ဆုတောင်းများပေါ် တည်ဆောက်မယ့် အနာဂတ်။</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="highlighted-desc">
+        <h1>ကယန်းကခေါင်း(ပဒေါင်) လူမျိုးများအကြောင်း</h1>
+        <p>ကယန်းလူမျိုးများသည် မြန်မာနိုင်ငံတွင် နေထိုင်ကြသော တိုင်းရင်းသားလူမျိုးစုတစ်ခုဖြစ်ပြီး ကရင်နီ (ကယား) လူမျိုးစုကြီး၏ အခွဲတစ်ခု ဖြစ်ပါသည်။ သူတို့ကိုယ်သူတို့ ကယန်း ဟု ခေါ်ဝေါ်ကြပြီး ပဒေါောင် (Padaung) ဆိုသည်မှာ ရှမ်းဘာသာစကားဖြင့် ခေါ်ဝေါ်သော အမည်ဖြစ်ပြီး အချို့က ထိုအသုံးအနှုန်းကို မနှစ်မြို့ကြပါ။ သူတို့သည် သူတို့၏ ထူးခြားသော လည်ပင်းတွင် ကြေးခွေများ ဝတ်ဆင်သည့် ဓလေ့ကြောင့် ကမ္ဘာကျော် လူသိများကြ၏။</p>
+            <h2>၁။ ထင်ရှားသော ယဉ်ကျေးမှု - လည်ပင်းကြေးခွေ</h2>
+            <p>ကယန်းအမျိုးသမီးများ၏ အထင်ရှားဆုံး ယဉ်ကျေးမှုမှာ လည်ပင်းတွင် ကြေးနီခွေများ အဆင့်ဆင့် ဝတ်ဆင်ခြင်း ဖြစ်သည်။
+            ဘာကြောင့် ဝတ်ဆင်ကြသလဲ။
+            အလှအပအတွက်- ရှေးယခင်က လည်တိုင်ရှည်လျားခြင်းကို အလှတရားတစ်ခုအဖြစ် သတ်မှတ်ခဲ့ကြသည်။
+            မျိုးနွယ်စု၏ အမှတ်အသား: ၎င်းသည် ကယန်းလူမျိုးဖြစ်ကြောင်း ခွဲခြားသိမြင်စေသော အမှတ်အသားတစ်ခု ဖြစ်သည်။
+            ရှေးအယူအဆ- တောထဲတွင် ကျားများ အကိုက်မခံရစေရန် ကာကွယ်ခြင်းဖြစ်သည်ဟု ရှေးလူကြီးများက ယုံကြည်ခဲ့ကြသည် (ဒဏ္ဍာရီဆန်သော အဆိုတစ်ခုဖြစ်သည်)။
+            လည်ပင်းရှည်စေခြင်း မဟုတ်ပါ။
+            အများစု ထင်မြင်ကြသလို ကြေးခွေများက လည်ပင်းအရိုးကို ဆွဲဆန့်ရှည်စေခြင်း မဟုတ်ပါ။
+            ကြေးခွေ၏ အလေးချိန်ကြောင့် ပခုံးရိုး (ညှပ်ရိုး) နှင့် နံရိုးများကို အောက်သို့ ဖိနှိပ်ထားသဖြင့် လည်ပင်:အမှန်တကယ်ထက် ပိုရှည်လျားနေသယောင် ထင်ရခြင်းသာ ဖြစ်သည်။
+            ယနေ့ခေတ် အခြေအနေ-
+            ယခုအခါတွင် ကြေးခွေဝတ်ဆင်ခြင်းသည် မိန်းကလေးတိုင်းအတွက် မဖြစ်မနေ မဟုတ်တော့ဘဲ တစ်ဦးချင်း၏ သဘောဆန္ဒအတိုင်းသာ ဝတ်ဆင်ကြတော့သည်။ လူငယ်မျိုးဆက်သစ်များတွင် ဝတ်ဆင်မှု နည်းပါးလာပါသည်။
+            </p>
+    </div>
+    <div class="container detail-page">
+        <div class="video-frame mb-4" style="
+                    border-color: #00ffff;
+                    box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
+                    padding: 15px;
+                    text-align: center;
+                    background-color: rgba(0, 255, 0, 0.1);
+                    border-top: 1px solid #00ff00;
+                    border-bottom: 1px solid #00ff00;
+                    border-radius: 12px 12px 12px 12px;
+                    min-height: 350px;
+                ">
+                <iframe width="315" height="560" src="https://www.youtube.com/embed/SfPvzgTGr2g" title="#kayan #ကယန်းတိုင်းရင်းသား #culture #kayansong #chiangmai #maetaengelephantpark  #HugChangChiangMai" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+    </div> 
+    <div class="highlighted-desc">
+        <h2>၂။ နေထိုင်ရာဒေသနှင့် လူနေမှုဘဝ</h2>
+        <p>နေထိုင်ရာဒေသ- ကယန်းလူမျိုးများသည် အဓိကအားဖြင့် ကယားပြည်နယ် (လွိုင်ကော်၊ ဒီမောဆို) နှင့် ရှမ်းပြည်နယ်တောင်ပိုင်း (ဖယ်ခုံ) ဒေသများတွင် နေထိုင်ကြသည်။ ထိုင်း-မြန်မာနယ်စပ်ရှိ ဒုက္ခသည်စခန်းများတွင်လည်း ကယန်းရွာများအဖြစ် သီးသန့်နေထိုင်ကြသည်။
+        အသက်မွေးဝမ်းကျောင်း- သူတို့၏ အဓိကလုပ်ငန်းမှာ တောင်ယာစိုက်ပျိုးရေး ဖြစ်သည်။ ထို့အပြင် ရိုးရာ ရက်ကန်းရက်ခြင်း၊ လက်မှုပညာဖြင့် အမှတ်တရပစ္စည်းများ ပြုလုပ်ရောင်းချခြင်းလည်း လုပ်ကိုင်ကြသည်။
+        </p>
+        <h2>၃။ ရိုးရာဝတ်စုံ</h2>
+        အမျိုးသမီး- အဖြူရောင် (သို့) သဘာဝချည်အရောင် လက်တိုအင်္ကျီ၊ အနက်ရောင် (သို့) အရောင်ရင့် ဒူးဖုံးစကတ်ကို ဝတ်ဆင်ကြသည်။ ခြေထောက်တွင်လည်း ကြေးခွေ သို့မဟုတ် အဝတ်စများဖြင့် အလှဆင်ကြသည်။ ခေါင်းတွင် အရောင်အသွေးစုံလင်သော ခေါင်းပေါင်းကို ပေါင်းလေ့ရှိသည်။
+        အမျိုးသား- ရိုးရှင်းသော အင်္ကျီလက်တိုနှင့် ဘောင်းဘီပွကို ဝတ်ဆင်ကြသည်။
+        <h2>၄။ ဘာသာရေးနှင့် ပွဲတော်များ</h2>
+        <p>ဘာသာရေး- ရှေးယခင်က နတ်ကိုးကွယ်ယုံကြည်မှု (Animism) ရှိကြသော်လည်း ယခုအခါ ခရစ်ယာန်ဘာသာကို ကိုးကွယ်သူ အများအပြားရှိလာကြသည်။
+        ကေ့ထိန်ဘိုး (Kay Htein Bo)ပွဲတော်- ကယန်းလူမျိုးများ၏ အရေးကြီးဆုံးနှင့် အစည်ကားဆုံး ပွဲတော်ဖြစ်သည်။ နှစ်သစ်ကူးအထိမ်းအမှတ်အဖြစ် ကျင်းပပြီး စိုက်ပျိုးရေး ဖြစ်ထွန်းအောင်မြင်ရန်နှင့် ကောင်းကျိုးချမ်းသာများ ရရှိရန်အတွက် ကမ္ဘာမြေကို ဖန်ဆင်းပေးသောနတ်အား ပူဇော်ပသသော ပွဲတော်ဖြစ်ပါသည်။</p>
+        <h2>၅။ လက်ရှိ စိန်ခေါ်မှုများ</h2>
+        ခရီးသွားလုပ်ငန်း- သူတို့၏ ထူးခြားသော ဓလေ့ကြောင့် ကမ္ဘာလှည့်ခရီးသည်များ၏ စိတ်ဝင်စားမှုကို ခံရသော်လည်း တစ်ခါတစ်ရံ "လူသားတိရစ္ဆာန်ရုံ" (Human Zoo) ဟု ဝေဖန်ခံရသည့် အခြေအနေများနှင့် ရင်ဆိုင်နေရသည်။
+        ယဉ်ကျေးမှု ပျောက်ကွယ်မှု- ခေတ်မီဖွံ့ဖြိုးလာမှုနှင့်အတူ လူငယ်များအနေဖြင့် ရိုးရာဓလေ့များကို စိတ်ဝင်စားမှု နည်းပါးလာခြင်း။
+        နိုင်ငံရေး မတည်ငြိမ်မှု- မြန်မာနိုင်ငံ၏ နိုင်ငံရေးအခြေအနေများကြောင့် သူတို့၏ နေထိုင်ရာဒေသများတွင် လုံခြုံမှုမရှိခြင်းနှင့် စားဝတ်နေရေးအခက်အခဲများ ကြုံတွေ့နေရသည်။
+    </div>
+
+    <div class="container detail-page" style="margin-bottom: 30px;">
+        <a href="ethnic.html" class="back-link"> RETURN TO ARCHIVE</a>
+    </div>
+    <footer class="footer-text">
+        <p>&copy; 2024 Kayan National University. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle (includes Popper.js for dropdowns) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+</body>
+</html>
